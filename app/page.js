@@ -27,34 +27,62 @@ function shuffle(array) {
 
 import { CHALLENGE_POOL_100 } from './challenges';
 
-// 100 TOTAL UNIQUE CHALLENGES POOL — ANY 25 SERVED PER RUN WITH DIVERSE PATTERNS
+// 35 DISTINCT INTERACTION PATTERN FAMILIES TO GUARANTEE 25 STRICTLY UNIQUE PATTERNS PER RUN
+const PATTERN_MAP = {
+  stamps: 'rubber_stamp', stamps_hackathon: 'rubber_stamp', stamps_placement: 'rubber_stamp',
+  binary: 'binary_w_l', binary_viva: 'binary_w_l', binary_canteen: 'binary_w_l',
+  reflex: 'reflex_blink', reflex_bell: 'reflex_blink',
+  timing_bar: 'timing_needle', timing_proxy: 'timing_needle', timing_wifi: 'timing_needle',
+  alarm_picker: 'alarm_speedrun', alarm_assignment: 'alarm_speedrun', alarm_mess: 'alarm_speedrun',
+  silent: 'silent_discipline', silent_library: 'silent_discipline',
+  memory: 'memory_locker', memory_canteen: 'memory_locker', memory_stationery: 'memory_locker',
+  sequence: 'sequence_combo', sequence_code: 'sequence_combo', sequence_meme: 'sequence_combo',
+  archetype: 'archetype_spotter', archetype_doubt: 'archetype_spotter', archetype_late: 'archetype_spotter',
+  priority: 'priority_ranking', priority_groupwork: 'priority_ranking',
+  definition: 'slang_definition', definition_rizz: 'slang_definition', definition_lockin: 'slang_definition',
+  chat: 'chat_translation', chat_prof: 'chat_translation',
+  wager: 'auction_wager', wager_hackathon: 'auction_wager', wager_crush: 'auction_wager',
+  invest: 'startup_invest', invest_learnit: 'startup_invest', invest_crypto: 'startup_invest',
+  all_or_nothing: 'viva_gamble', all_or_nothing_prof: 'viva_gamble', all_or_nothing_presentation: 'viva_gamble',
+  gamble: 'roast_battle', gamble_poker: 'roast_battle', gamble_attendance: 'roast_battle',
+  prediction: 'ratio_consensus', prediction_canteen: 'ratio_consensus', prediction_wifi: 'ratio_consensus',
+  binary_opinion: 'hot_take', binary_ai: 'hot_take', binary_topper: 'hot_take',
+  multi_choice: 'seating_dilemma', seat_front: 'seating_dilemma', seat_projector: 'seating_dilemma',
+  budget: 'canteen_budget', budget_hackathon: 'canteen_budget', budget_midnight: 'canteen_budget',
+  route: 'campus_shortcut', route_morning: 'campus_shortcut', shortcut_night: 'campus_shortcut', commute_train: 'campus_shortcut',
+  meter_choice: 'attendance_clutch', meter_rain: 'attendance_clutch', medical_cert: 'attendance_clutch',
+  exam: 'exam_survival', exam_mcq: 'exam_survival', quiz_pop: 'exam_survival',
+  dialogue: 'smooth_excuse', dialogue_excuse: 'smooth_excuse', dialogue_stealth: 'smooth_excuse', pitch_deck: 'smooth_excuse', stage_fright: 'smooth_excuse',
+  crisis_laundry: 'hostel_emergency', hostel_wifi: 'hostel_emergency',
+  chat_meme: 'whatsapp_panic', wrong_chat: 'whatsapp_panic', poll_betrayal: 'whatsapp_panic',
+  chips_npc: 'npc_detector', chips_canteen: 'npc_detector', chips_roommate: 'npc_detector',
+  danger_crush: 'crush_danger', hotspot_password: 'crush_danger',
+  negotiation: 'diplomacy_negotiation', pen_borrow: 'diplomacy_negotiation',
+  headphones_fake: 'social_stealth', elevator_crowd: 'social_stealth',
+  split: 'roast_respect_split', split_coffee: 'roast_respect_split',
+  versus: 'would_you_rather', versus_dorm: 'would_you_rather', versus_final: 'would_you_rather',
+  build_cards: 'learnit_prototype', build_learnit_v2: 'learnit_prototype', build_final: 'learnit_prototype',
+  swipe: 'entrance_swagger', swipe_graduation: 'entrance_swagger',
+  vote: 'apocalypse_vote', vote_startup: 'apocalypse_vote'
+};
+
 const TOTAL_RUN_CHALLENGES = 25;
 
 function pickBalancedSession() {
   const shuffledAll = shuffle(CHALLENGE_POOL_100);
-  const usedMechanics = new Set();
+  const usedPatterns = new Set();
   const session = [];
 
-  // Step 1: Collect challenges prioritizing distinct mechanics
   for (const c of shuffledAll) {
     if (session.length >= TOTAL_RUN_CHALLENGES) break;
-    if (!usedMechanics.has(c.mechanic) && !session.some(x => x.id === c.id)) {
+    const pattern = PATTERN_MAP[c.mechanic] || c.mechanic;
+    if (!usedPatterns.has(pattern) && !session.some(x => x.id === c.id)) {
       session.push(c);
-      usedMechanics.add(c.mechanic);
+      usedPatterns.add(pattern);
     }
   }
 
-  // Step 2: If more challenges needed, fill with remaining unique questions
-  if (session.length < TOTAL_RUN_CHALLENGES) {
-    for (const c of shuffledAll) {
-      if (session.length >= TOTAL_RUN_CHALLENGES) break;
-      if (!session.some(x => x.id === c.id)) {
-        session.push(c);
-      }
-    }
-  }
-
-  return shuffle(session.slice(0, TOTAL_RUN_CHALLENGES));
+  return shuffle(session);
 }
 
 function Sparkles({ count = 16 }) {
