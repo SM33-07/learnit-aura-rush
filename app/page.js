@@ -25,78 +25,17 @@ function shuffle(array) {
   return pool;
 }
 
-// 38 UNIQUE CHALLENGES CATEGORIZED FOR BALANCED 8-CHALLENGE RUNS
-const challengePool = {
-  reaction_timing: [
-    { id: 'c1', kind: 'cap', mechanic: 'stamps', eyebrow: 'CAP DETECTOR', title: <>YOUR FRIEND SAYS<br />“BRO I STUDIED.”</>, copy: 'Cap or no cap? Call it before the timer expires.', layout: 'stamps', options: [['NO CAP', 'BELIEVE', 40, 'WHOLESOME.'], ['CAP', 'CALL IT', 130, 'LIE DETECTED.']] },
-    { id: 'c2', kind: 'winloss', mechanic: 'binary', eyebrow: 'W OR L?', title: <>SUBMITTED AT 11:59.<br />DEADLINE: 12:00.</>, copy: 'Make the clutch call.', layout: 'binary', options: [['W', 'CLUTCH', 130, 'THE ROOM SAYS W.'], ['L', 'FUMBLE', -60, 'THE ROOM DISAGREES.']] },
-    { id: 'c3', kind: 'blink', mechanic: 'reflex', eyebrow: 'REFLEX TEST', title: <>DON&apos;T<br />BLINK.</>, copy: 'Tap the exact millisecond the eye closes. No flinching.', layout: 'blink' },
-    { id: 'c4', kind: 'timing', mechanic: 'timing_bar', eyebrow: 'DEADLINE CLUTCH', title: <>STOP THE NEEDLE<br />AT MAX AURA.</>, copy: 'Land inside the green zone for cinematic timing.', layout: 'timing' },
-    { id: 'c5', kind: 'alarm', mechanic: 'alarm_picker', eyebrow: 'ALARM SPEEDRUN', title: <>DISMISS THE<br />7:45 AM ALARM.</>, copy: 'Four alarms ringing. Dismiss ONLY the 7:45 AM class alarm!', layout: 'alarms', alarms: [{ time: '2:00 AM', label: 'LATE SNACK', correct: false }, { time: '7:45 AM', label: '8 AM LECTURE', correct: true }, { time: '6:30 AM', label: 'GYM DELUSION', correct: false }, { time: '8:15 AM', label: 'TOO LATE', correct: false }] },
-    { id: 'c6', kind: 'dontPress', mechanic: 'silent', eyebrow: 'SILENT AURA', title: <>DO NOTHING<br />FOR 5 SECONDS.</>, copy: 'Tap anywhere and your aura drops. Hold your nerve.', layout: 'silent' },
-  ],
-  memory_observation: [
-    { id: 'c7', kind: 'memoryLock', mechanic: 'memory', eyebrow: 'MEMORY LOCKER', title: <>WHAT ITEM WAS<br />JUST STOLEN?</>, copy: 'Lock in. Memorise the items before one disappears.', layout: 'memory_lock', items: ['🍕', '🎧', '🛹'], missingItem: '🎧', answers: [['🍕', 'PIZZA', false], ['🎧', 'HEADPHONES', true], ['🛹', 'SKATEBOARD', false]] },
-    { id: 'c8', kind: 'sequence', mechanic: 'sequence', eyebrow: 'SEQUENCE BREAKER', title: <>REPEAT THE<br />HANDSHAKE.</>, copy: 'Memorise and tap the 3-icon sequence in exact order: 🤝 → ✌️ → 🗿', layout: 'sequence', targetSequence: ['🤝', '✌️', '🗿'], choices: ['🤝', '✌️', '🗿', '🔥'] },
-    { id: 'c9', kind: 'whoSent', mechanic: 'archetype', eyebrow: 'WHO SENT THIS?', title: <>“BRO MARK PROXY,<br />FIGHTING FOR MY LIFE.”</>, copy: 'Identify the campus archetype behind this message.', layout: 'chips', options: [['👻', 'THE GHOST', 130, 'ACCURATE.'], ['🤓', 'THE FRONTBENCHER', -40, 'NEVER MISSES CLASS.'], ['📚', 'THE TOPPER', -50, 'DELUSIONAL GUESS.'], ['🏃', 'THE COMMUTER', 70, 'POSSIBLE.']] },
-    { id: 'c10', kind: 'libraryBoss', mechanic: 'priority', eyebrow: 'LIBRARY BOSS FIGHT', title: <>CHOOSE THE #1<br />WORST NOISE.</>, copy: 'Which distraction deserves immediate campus exile?', layout: 'danger', options: [['🥔', 'LOUD CHIPS CRUNCHING', 140, 'EXILED IMMEDIATELY.'], ['📱', 'PHONE ON FULL SPEAKER', 120, 'NPC BEHAVIOUR.'], ['🗣️', 'GROUP WHISPERING', 80, 'UNDERSTANDABLE PAIN.'], ['🎧', 'AUDIO LEAKING FROM AIRPODS', 60, 'MILD NUISANCE.']] },
-    { id: 'c11', kind: 'slang', mechanic: 'definition', eyebrow: 'SLANG SCAN', title: <>“IT’S GIVING…”<br />MEANS?</>, copy: 'Choose the closest internet vibe, not the dictionary definition.', layout: 'definition', options: [['A CERTAIN VIBE', 'CORRECT', 120, 'SPEAKS INTERNET.'], ['SOMETHING BROKE', 'NOPE', -45, 'TECH SUPPORT ARC.'], ['IT’S FINISHED', 'NOPE', -45, 'NOT QUITE.'], ['IT’S EXPENSIVE', 'NOPE', -45, 'MONEY MENTIONED.']] },
-    { id: 'c12', kind: 'translate', mechanic: 'chat', eyebrow: 'CHAT TRANSLATOR', title: <>“NAH TS IS<br />COOKED NGL 💀”</>, copy: 'What is the true translation?', layout: 'chat', options: [['EVERYTHING IS FINE', 'DELUSION', -50, 'READ IT AGAIN.'], ['THIS IS TERRIBLE', 'TRANSLATION', 130, 'FLUENT.'], ['SOMEONE IS HUNGRY', 'RANDOM', -20, 'WHERE DID FOOD COME FROM?'], ['WE ARE LEAVING', 'POSSIBLE', 30, 'MAYBE.']] },
-  ],
-  risk_reward: [
-    { id: 'c13', kind: 'auraAuction', mechanic: 'wager', eyebrow: 'AURA AUCTION', title: <>BID FOR THE ONLY<br />WORKING CHARGER PLUG.</>, copy: 'Higher bids yield bigger aura multiplier, but risk is real.', layout: 'danger', options: [['⚡ 50 AURA', 'SAFE BID', 60, 'CONSERVATIVE PLAY.'], ['⚡ 120 AURA', 'AGGRESSIVE', 140, 'CHARGER SECURED.'], ['⚡ ALL-IN AURA', 'CHAOS BID', 240, 'ABSOLUTE CINEMA.'], ['🚶 WALK AWAY', 'ZERO RISK', -20, 'BATTERY DIED AT 2%.']] },
-    { id: 'c14', kind: 'auraInvest', mechanic: 'invest', eyebrow: 'AURA INVESTMENT', title: <>INVEST 100 AURA<br />INTO A CAMPUS STARTUP.</>, copy: 'High risk, absurd return.', layout: 'danger', options: [['🥟 SAMOSA FUTURES', '+200 AURA', 200, 'CANTEEN ECONOMY BOOM.'], ['🤖 AI PROXY BOT', '+120 AURA', 120, 'PROFESSOR OUTSMARTED.'], ['🐱 DATING APP FOR CATS', '+160 AURA', 160, 'SILICON VALLEY WANTS IN.'], ['💤 8 AM SLEEP TOKEN', '-100 AURA', -100, 'RUG PULLED BY ATTENDANCE.']] },
-    { id: 'c15', kind: 'oneChance', mechanic: 'all_or_nothing', eyebrow: 'ONE CHANCE', title: <>THE SURPRISE VIVA<br />QUESTION IS DROPPED.</>, copy: 'One clutch attempt. Maximum risk.', layout: 'danger', options: [['“ACCORDING TO MY RESEARCH...”', 'CONFIDENT YAP', 220, 'PROFESSOR CONVINCED.'], ['“CAN YOU REPEAT THE QUESTION?”', 'STALL FOR TIME', 60, 'SURVIVED.'], ['“I WAS NOT PRESENT BRO”', 'HONEST FATAL', -140, 'VIVA FUMBLED.']] },
-    { id: 'c16', kind: 'finalWarning', mechanic: 'gamble', eyebrow: 'FINAL WARNING', title: <>GROUP CHAT<br />ROAST BATTLE.</>, copy: 'Choose your level of flame.', layout: 'versus', options: [['MILD JOKE', 'SAFE (+80)', 80, 'CROWD CHUCKLES.'], ['TACTICAL MEME NUKE', 'HIGH RISK (+220)', 220, 'GROUP CHAT SHUT DOWN.']] },
-    { id: 'c17', kind: 'ratio', mechanic: 'prediction', eyebrow: 'RATIO CHECK', title: <>“ATTENDANCE CRITERIA<br />SHOULD BE 0%.”</>, copy: 'Predict the campus room consensus.', layout: 'binary', options: [['99% AGREE', 'OBVIOUS', 130, 'UNANIMOUS AURA.'], ['50% DISAGREE', 'WRONG', -50, 'NOT THIS CAMPUS.']] },
-    { id: 'c18', kind: 'hotTake', mechanic: 'binary_opinion', eyebrow: 'CAMPUS HOT TAKE', title: <>“8 AM CLASSES<br />BUILD CHARACTER.”</>, copy: 'Is this take a W or an L?', layout: 'binary', options: [['L', 'MASSIVE L', 130, 'FACTS.'], ['W', 'DELUSIONAL', -80, 'WHO HURT YOU?']] },
-  ],
-  decision_scenario: [
-    { id: 'c19', kind: 'lastSeat', mechanic: 'multi_choice', eyebrow: 'LAST SEAT', title: <>ONE SEAT LEFT<br />IN ROW 3.</>, copy: 'Where do you deploy your presence?', layout: 'dialogue', options: [['SIT BESIDE THE PROFESSOR', 'PSYCHOPATH AURA', 160, 'FEARLESS.'], ['SQUEEZE BETWEEN A COUPLE', 'AWKWARD', -40, 'ROOM TENSION RISES.'], ['STAND AT THE BACK LIKE A MONK', 'PHILOSOPHER', 120, 'TACTICAL DISTANCE.'], ['LEAVE AND GET CHAI', 'HONEST', 50, 'CANTEEN ESCAPE.']] },
-    { id: 'c20', kind: 'hostelCrisis', mechanic: 'multi_choice', eyebrow: 'HOSTEL CRISIS', title: <>2:30 AM AND<br />MAGGI IS FINISHED.</>, copy: 'Emergency protocol activated.', layout: 'route', options: [['RAID 2ND FLOOR KITCHEN', 'PIRATE AURA', 130, 'LOOT SECURED.'], ['ORDER FROM 6KM AWAY', 'EXPENSIVE', 60, 'DELIVERY ARRIVES AT 4 AM.'], ['SLEEP AND DREAM OF CARBS', 'RESIGNED', 20, 'HUNGER DEFEATED YOU.'], ['BORROW SNOOZE INDUCERS', 'SUS', -30, 'NOT THE VIBE.']] },
-    { id: 'c21', kind: 'wrongClass', mechanic: 'multi_choice', eyebrow: 'WRONG CLASS', title: <>ENTERED ADVANCED<br />FLUID DYNAMICS BY MISTAKE.</>, copy: 'The professor is already staring.', layout: 'dialogue', options: [['CONFIDENTLY NOD AND TAKE NOTES', 'STEALTH', 140, 'PROFESSOR RESPECTS YOU.'], ['ACT LIKE A GUEST LECTURER', 'UNHINGED', 180, 'ABSOLUTE CINEMA.'], ['MOONWALK OUT BACKWARDS', 'COMEDY', 90, 'LEGENDARY ESCAPE.'], ['APOLOGISE AND CRY', 'NPC', -60, 'AURA IN CRITICAL STATE.']] },
-    { id: 'c22', kind: 'canteenBudget', mechanic: 'budget', eyebrow: 'CANTEEN NEGOTIATOR', title: <>YOU HAVE ₹80.<br />BUILD LUNCH.</>, copy: 'Maximise happiness, value and quantity.', layout: 'budget', options: [['🥟 + 🥤', 'SAMOSA + COLD DRINK / ₹50', 120, 'BALANCED MEAL.'], ['🌯', 'BIG ROLL / ₹60', 90, 'SINGLE-ITEM SPECIALIST.'], ['🍟 + 🥟', 'FRIES + SAMOSA / ₹70', 150, 'CANTEEN IQ.'], ['💧', 'JUST WATER / ₹0', -70, 'GRINDSET GONE WRONG.']] },
-    { id: 'c23', kind: 'campusMap', mechanic: 'route', eyebrow: 'CAMPUS MAP CHAOS', title: <>FASTEST SHORTCUT<br />TO LAB 3.</>, copy: 'Class starts in 3 minutes.', layout: 'route', options: [['SPRINT THROUGH CANTEEN CROWD', 'OBSTACLE COURSE', 110, 'AGILITY CHECK PASSED.'], ['JUMP OVER THE CENTRAL LAWN', 'PARKOUR', 140, 'GUARD WAS LOOKING AWAY.'], ['WAIT FOR ELEVATOR', 'TRAP', -80, 'ELEVATOR BUFFERING.'], ['WALK NORMALLY', 'TOO SLOW', -40, 'LATE BY 10 MINS.']] },
-    { id: 'c24', kind: 'attendance', mechanic: 'meter_choice', eyebrow: 'ATTENDANCE SIMULATOR', title: <>ATTENDANCE:<br />74.2%</>, copy: 'One lecture left tomorrow. What is the play?', layout: 'meter-choice', options: [['GO TO CLASS', 'SAFE', 130, 'LOCKED IN.'], ['EMAIL PROFESSOR', 'BOLD', 45, 'DIPLOMACY.'], ['PRAY', 'SPIRITUAL', 20, 'HIGHER POWERS.'], ['ASK FOR PROXY', 'CHAOS', 70, 'RISK TAKEN.']] },
-    { id: 'c25', kind: 'morning', mechanic: 'route', eyebrow: '8 AM LECTURE', title: <>7:42 AM.<br />CLASS AT 8.</>, copy: 'Twelve minutes away. Pick one move.', layout: 'route', options: [['🏃', 'RUN WITHOUT BREAKFAST', 130, 'LOCKED IN.'], ['🚿', 'SHOWER FIRST', -50, 'TIME BLIND.'], ['😴', 'GO BACK TO SLEEP', -120, 'SNOOZE AURA.'], ['📱', 'ASK IF ATTENDANCE HAI', 50, 'INFORMATION FIRST.']] },
-    { id: 'c26', kind: 'exam', mechanic: 'exam', eyebrow: 'EXAM HALL DISASTER', title: <>STUDIED CHAPTER 1.<br />EXAM IS CHAPTER 4.</>, copy: 'Activate the survival instinct.', layout: 'exam', options: [['🧮', 'CALCULATE PASS MARKS', 90, 'REALISTIC.'], ['🔮', 'ACTIVATE DELUSION', 130, 'ACADEMIC MAGIC.'], ['😶', 'ACCEPT FATE', 20, 'ZEN MODE.'], ['📖', 'READ FROM THE BACK', 50, 'TACTICAL.']] },
-  ],
-  social_stealth: [
-    { id: 'c27', kind: 'wingman', mechanic: 'dialogue', eyebrow: 'ULTIMATE WINGMAN', title: <>YOUR FRIEND IS<br />FUMBLING HARD.</>, copy: 'Deploy tactical wingman support.', layout: 'dialogue', options: [['DROP A SMOOTH ICEBREAKER', 'HERO MOVE', 140, 'SITUATION RESCUED.'], ['PRETEND YOU ARE HIS CEO', 'CHAOTIC HYPE', 160, 'LEGENDARY WINGMAN.'], ['PANIC AND TRIP ON PURPOSE', 'DISTRACTION', 70, 'DISTRACTION SUCCEEDED.'], ['RECORD A TIKTOK', 'BETRAYAL', -90, 'FRIENDSHIP TERMINATED.']] },
-    { id: 'c28', kind: 'groupPanic', mechanic: 'chat', eyebrow: 'GROUP CHAT PANIC', title: <>PROFESSOR ACCIDENTALLY<br />SENT A MEME.</>, copy: 'Choose the only socially survivable response.', layout: 'chat', options: [['REACT WITH “🗿”', 'UNBOTHERED', 140, 'CROWD FOLLOWS.'], ['SEND SYLLABUS QUERY', 'DEFLECTION', 80, 'PROFESSOR SAVED.'], ['TYPE “BRO COOKED 💀”', 'FATAL MISTAKE', -120, 'REMOVED FROM GROUP.'], ['LEAVE THE GROUP', 'ESCAPE', -40, 'RADICAL MOVE.']] },
-    { id: 'c29', kind: 'npcDetector', mechanic: 'chips', eyebrow: 'NPC DETECTOR', title: <>IDENTIFY THE PURE<br />NPC BEHAVIOR.</>, copy: 'One of these radiates 0 aura.', layout: 'chips', options: [['WALKING WITH BOTH STRAPS TIGHT', 'NPC TIER 1', 130, 'CORRECT NPC IDENTIFIED.'], ['WEARING HOODIE IN 38°C HEAT', 'EDGE LORD', 40, 'MISUNDERSTOOD AURA.'], ['SITTING FRONT ROW VOLUNTARILY', 'DANGEROUS', 60, 'PROTAGONIST MOVE.'], ['CHARGING LAPTOP AT 98%', 'PARANOID', 20, 'MILD.']] },
-    { id: 'c30', kind: 'socialStealth', mechanic: 'dialogue', eyebrow: 'SOCIAL STEALTH', title: <>CRUSH AND EX ENTER<br />CANTEEN AT ONCE.</>, copy: 'Maximum spatial awareness needed.', layout: 'dialogue', options: [['PUT SUNGLASSES ON INDOORS', 'CINEMATIC', 150, 'UNTOUCHABLE.'], ['WALK STRAIGHT BETWEEN THEM', 'MAIN CHARACTER', 160, 'ROOM GOES SILENT.'], ['DUCK BEHIND SODA COOLER', 'STEALTH FAILED', -70, 'SPOTTED IMMEDIATELY.'], ['STARE AT CANTEEN MENU', 'DEFAULT NPC', 30, 'SURVIVED BARELY.']] },
-    { id: 'c31', kind: 'bankruptcy', mechanic: 'danger', eyebrow: 'AURA BANKRUPTCY', title: <>YOUR CRUSH<br />WALKS PAST.</>, copy: 'This choice will echo through campus lore.', layout: 'danger', options: [['👀', 'MAKE EYE CONTACT', 140, 'CONFIDENCE.'], ['📱', 'CHECK YOUR PHONE', 40, 'SAFE PLAY.'], ['🫠', 'TRIP FOR NO REASON', -150, 'AURA DESTROYED.'], ['🧱', 'WALK INTO A WALL', -200, 'COOKED BEYOND REPAIR.']] },
-    { id: 'c32', kind: 'charger', mechanic: 'negotiation', eyebrow: 'CHARGER DIPLOMACY', title: <>“BRO, CAN I USE<br />YOUR CHARGER?”</>, copy: 'Your laptop battery is at 41 percent.', layout: 'negotiation', options: [['YES, TAKE IT', 'GENEROUS', 120, 'SOCIAL AURA.'], ['2 MINUTES ONLY', 'FAIR', 70, 'BOUNDARIES.'], ['“I’M ON 12%”', 'TACTICAL LIE', -30, 'SUS RESPONSE.'], ['PRETEND NOT TO HEAR', 'GHOST', -60, 'BAD ROOMMATE ARC.']] },
-  ],
-  chaos_wildcard: [
-    { id: 'c33', kind: 'phone1', mechanic: 'route', eyebrow: 'PHONE AT 1%', title: <>YOUR BATTERY IS<br />AT EXACTLY 1%.</>, copy: 'One final tap before phone dies forever.', layout: 'route', options: [['SCREENSHOT UPI QR CODE', 'SURVIVAL', 140, 'CANTEEN BILL PAID.'], ['SEND PROXY TO GROUP CHAT', 'LOYAL', 120, 'SAVED A FRIEND.'], ['DOOMSCROLL INSTAGRAM REELS', 'ADDICTION', -80, 'BLACK SCREEN OF REGRET.'], ['CALL MOM', 'WHOLESOME', 100, 'GOOD KARMA.']] },
-    { id: 'c34', kind: 'roast', mechanic: 'split', eyebrow: 'ROAST OR RESPECT', title: <>RIYA HAS 7 TABS<br />OPEN DURING CLASS.</>, copy: 'Choose her fate. Keep it harmless.', layout: 'split', options: [['🔥', 'RESPECT', 120, 'MAIN CHARACTER BEHAVIOUR.'], ['💀', 'ROAST', 80, 'AURA UNDER INVESTIGATION.']] },
-    { id: 'c35', kind: 'rather', mechanic: 'versus', eyebrow: 'WOULD YOU RATHER', title: <>8 AM CLASS<br />OR SURPRISE VIVA?</>, copy: 'The room is waiting for your answer.', layout: 'versus', options: [['8 AM CLASS', 'EARLY PAIN', 90, 'THE ROOM HAS DECIDED.'], ['SURPRISE VIVA', 'SUDDEN PAIN', 130, 'BRAVE CHOICE.']] },
-    { id: 'c36', kind: 'build', mechanic: 'build_cards', eyebrow: 'LEARNIT LAB', title: <>BUILD SOMETHING<br />QUESTIONABLE.</>, copy: 'You have sixty seconds and one random idea.', layout: 'build-cards', options: [['🐱', 'DATING APP FOR CATS', 160, 'WELCOME TO LEARNIT.'], ['🍕', 'CANTEEN QUEUE PREDICTOR', 130, 'ACTUALLY USEFUL.'], ['🛵', 'HOSTEL FOOD DELIVERY', 100, 'LOGISTICS ERA.'], ['🎮', 'FLAPPY PROFESSOR', 160, 'WE LOVE THE ENERGY.']] },
-    { id: 'c37', kind: 'entrance', mechanic: 'swipe', eyebrow: 'AURA MAXXING', title: <>MAKE YOUR<br />ENTRANCE.</>, copy: 'You are 20 minutes late. How do you enter class?', layout: 'swipe', options: [['😎', 'WALK IN LIKE NOTHING HAPPENED', 250, 'MAIN CHARACTER ENERGY.'], ['🤫', 'SLIP INTO THE BACK', 80, 'STEALTH AURA.'], ['🙇', 'APOLOGISE TO EVERYONE', -35, 'TOO POLITE.'], ['🚦', 'BLAME THE TRAFFIC', 20, 'CLASSIC EXCUSE.']] },
-    { id: 'c38', kind: 'whoWould', mechanic: 'vote', eyebrow: 'THE ROOM DECIDES', title: <>WHO WOULD SURVIVE<br />A ZOMBIE APOCALYPSE?</>, copy: 'Cast the decisive campus vote.', layout: 'vote', options: [['RIYA', 'STRATEGIST', 90, 'RIYA GETS PLOT ARMOR.'], ['DEV', 'RESOURCEFUL', 90, 'DEV KNOWS A GUY.'], ['ANANYA', 'CHAOS GENIUS', 90, 'ANANYA WINS SOMEHOW.'], ['YOU', 'SELF BELIEF', 140, 'PROTAGONIST VOTED.']] },
-  ],
-};
+import { CHALLENGE_POOL_100 } from './challenges';
 
-// 25 UNIQUE CHALLENGES PER RUN WITH STRICTLY UNIQUE INTERACTION PATTERNS
+// 100 TOTAL UNIQUE CHALLENGES POOL — ANY 25 SERVED PER RUN WITH DIVERSE PATTERNS
 const TOTAL_RUN_CHALLENGES = 25;
 
 function pickBalancedSession() {
-  const all = [
-    ...challengePool.reaction_timing,
-    ...challengePool.memory_observation,
-    ...challengePool.risk_reward,
-    ...challengePool.decision_scenario,
-    ...challengePool.social_stealth,
-    ...challengePool.chaos_wildcard,
-  ];
-
-  const shuffledAll = shuffle(all);
+  const shuffledAll = shuffle(CHALLENGE_POOL_100);
   const usedMechanics = new Set();
   const session = [];
 
-  // Pass 1: Select challenges with strictly unique mechanics
+  // Step 1: Collect challenges prioritizing distinct mechanics
   for (const c of shuffledAll) {
     if (session.length >= TOTAL_RUN_CHALLENGES) break;
     if (!usedMechanics.has(c.mechanic) && !session.some(x => x.id === c.id)) {
@@ -105,7 +44,7 @@ function pickBalancedSession() {
     }
   }
 
-  // Pass 2: Fill any remaining slots with strictly unique IDs
+  // Step 2: If more challenges needed, fill with remaining unique questions
   if (session.length < TOTAL_RUN_CHALLENGES) {
     for (const c of shuffledAll) {
       if (session.length >= TOTAL_RUN_CHALLENGES) break;
@@ -115,7 +54,7 @@ function pickBalancedSession() {
     }
   }
 
-  return session.slice(0, TOTAL_RUN_CHALLENGES);
+  return shuffle(session.slice(0, TOTAL_RUN_CHALLENGES));
 }
 
 function Sparkles({ count = 16 }) {
@@ -383,7 +322,7 @@ export default function Home() {
             <small>{department ? `CAMPUS AURA: ${departmentDisplay}` : 'READY TO RUSH'}</small>
           </div>
           <button className="primary-button magnetic" onClick={startGame}>START THE CHAOS <span>→</span></button>
-          <p className="microcopy">25 UNIQUE CHALLENGES · STRICTLY UNIQUE MECHANICS · SOLO</p>
+          <p className="microcopy">100 UNIQUE CHALLENGES · 25 PER RUN · SOLO AURA CHALLENGE</p>
         </div>
         <footer className="intro-footer">
           <span>◉ LIVE FROM CAMPUS</span>
