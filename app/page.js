@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 const MEMBERSHIP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScdpk6YjFtwWux8XXBr7tJRYrIlJSdsTNbfT3mahZShdCxHQ/viewform';
 
-const ROUND_DURATION = 10;
+const ROUND_DURATION = 16;
 const ROUND_TRANSITION_MS = 1400;
 
 const CAMPUS_CLASSES = [
@@ -194,12 +194,14 @@ export default function Home() {
   // Round Timer & Interactive Round Drivers
   useEffect(() => {
     if (screen !== 'game' || !sessionRounds.length) return undefined;
-    setSeconds(ROUND_DURATION);
+    const currentRoundObj = sessionRounds[round];
+    const currentKind = currentRoundObj?.kind;
+    const initialSeconds = currentKind === 'dontPress' ? 5 : ROUND_DURATION;
+
+    setSeconds(initialSeconds);
     setIsBlinking(false);
     setMemState('showing');
     setUserSequence([]);
-    const currentRoundObj = sessionRounds[round];
-    const currentKind = currentRoundObj?.kind;
 
     timerRef.current = window.setInterval(() => {
       setSeconds((value) => {
@@ -411,7 +413,7 @@ export default function Home() {
               <span className="rule-icon">⚡</span>
               <div>
                 <strong>25 RAPID ROUNDS</strong>
-                <p>10 seconds per challenge. Lock in and don&apos;t overthink.</p>
+                <p>16 seconds per challenge. Read the chaos and make your play.</p>
               </div>
             </div>
 

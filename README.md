@@ -23,7 +23,7 @@ Forget boring aptitude quizzes and academic exams. AURA RUSH tests your reflexes
    - Your score continuously updates in real-time in the persistent top banner (`✦ AURA [Score]`).
 
 3. **Timer & Pacing**:
-   - Each challenge has a strict **10-second countdown timer**.
+   - Each challenge has a comfortable **16-second countdown timer** (with 5s for discipline checks) to read the scenarios and make your play.
    - Making clutch choices quickly awards full points.
    - Letting the timer expire fumbles the challenge and triggers a penalty (**`-60 AURA 💀`**).
 
