@@ -22,11 +22,11 @@
 .header-score-banner{display:flex;align-items:center;gap:10px;padding:6px 14px;border:1px solid rgba(210,255,0,.35);border-radius:4px;background:rgba(18,15,26,.75);box-shadow:0 0 16px rgba(210,255,0,.15);backdrop-filter:blur(10px)}
 .score-title{color:#9d95a8;font:700 9px 'DM Mono',monospace;letter-spacing:.15em}
 .score-val{font:700 18px 'DM Mono',monospace;color:#fff;letter-spacing:0}.score-val b{color:var(--acid);margin-right:4px}
-.challenge-dots-rail{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0 6px}
-.challenge-dots-rail .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);transition:all .3s ease}
-.challenge-dots-rail .dot.done{background:var(--acid);box-shadow:0 0 8px var(--acid)}
-.challenge-dots-rail .dot.active{background:var(--pink);box-shadow:0 0 12px var(--pink);transform:scale(1.4);animation:pulse-dot 1.2s infinite alternate}
-@keyframes pulse-dot{to{transform:scale(1.1);opacity:.7}}
+.challenge-dots-rail{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:5px;max-width:min(540px,94vw);margin:12px auto 4px}
+.challenge-dots-rail .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);transition:all .25s ease}
+.challenge-dots-rail .dot.done{background:var(--acid);box-shadow:0 0 6px var(--acid)}
+.challenge-dots-rail .dot.active{background:var(--pink);box-shadow:0 0 10px var(--pink);transform:scale(1.5);animation:pulse-dot 1.2s infinite alternate}
+@keyframes pulse-dot{to{transform:scale(1.15);opacity:.8}}
 .round-badge{color:#aaa3b3;font:500 11px 'DM Mono',monospace;letter-spacing:.1em}
 .timer-badge{display:flex;align-items:center;gap:6px;color:var(--acid);font:700 16px 'DM Mono',monospace}
 .timer-icon{font-size:14px}

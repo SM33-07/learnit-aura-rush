@@ -79,51 +79,43 @@ const challengePool = {
   ],
 };
 
-// BALANCED 8-CHALLENGE SESSION PICKER: GUARANTEES 8 COMPLETELY DIFFERENT MECHANIC TYPES IN EVERY RUN
-function pickBalancedSession() {
-  // 8 distinct mechanic archetypes
-  const m1 = shuffle(challengePool.reaction_timing)[0]; // timing / blink / alarm
-  const m2 = shuffle(challengePool.memory_observation)[0]; // memory / sequence / chat translator
-  const m3 = shuffle(challengePool.risk_reward)[0]; // auction / invest / one chance gamble
-  const m4 = shuffle(challengePool.decision_scenario.filter(c => c.mechanic === 'budget' || c.mechanic === 'route' || c.mechanic === 'meter_choice'))[0];
-  const m5 = shuffle(challengePool.social_stealth.filter(c => c.mechanic === 'dialogue' || c.mechanic === 'chips' || c.mechanic === 'danger'))[0];
-  const m6 = shuffle(challengePool.reaction_timing.concat(challengePool.risk_reward).filter(c => c.mechanic === 'stamps' || c.mechanic === 'binary' || c.mechanic === 'binary_opinion'))[0] || challengePool.risk_reward[0];
-  const m7 = shuffle(challengePool.chaos_wildcard.filter(c => c.mechanic === 'split' || c.mechanic === 'versus' || c.mechanic === 'vote'))[0];
-  const m8 = shuffle(challengePool.reaction_timing.concat(challengePool.chaos_wildcard).filter(c => c.mechanic === 'silent' || c.mechanic === 'build_cards'))[0] || challengePool.chaos_wildcard[0];
+// 25 UNIQUE CHALLENGES PER RUN WITH STRICTLY UNIQUE INTERACTION PATTERNS
+const TOTAL_RUN_CHALLENGES = 25;
 
-  const poolCandidates = [m1, m2, m3, m4, m5, m6, m7, m8];
-  
-  // Deduplicate by ID and mechanic to guarantee 100% unique types
+function pickBalancedSession() {
+  const all = [
+    ...challengePool.reaction_timing,
+    ...challengePool.memory_observation,
+    ...challengePool.risk_reward,
+    ...challengePool.decision_scenario,
+    ...challengePool.social_stealth,
+    ...challengePool.chaos_wildcard,
+  ];
+
+  const shuffledAll = shuffle(all);
   const usedMechanics = new Set();
   const session = [];
-  
-  for (const c of poolCandidates) {
-    if (c && !session.some(x => x.id === c.id) && !usedMechanics.has(c.mechanic)) {
+
+  // Pass 1: Select challenges with strictly unique mechanics
+  for (const c of shuffledAll) {
+    if (session.length >= TOTAL_RUN_CHALLENGES) break;
+    if (!usedMechanics.has(c.mechanic) && !session.some(x => x.id === c.id)) {
       session.push(c);
       usedMechanics.add(c.mechanic);
     }
   }
 
-  // If any slot needed filler, draw from remaining unused mechanics
-  if (session.length < 8) {
-    const all = [
-      ...challengePool.reaction_timing,
-      ...challengePool.memory_observation,
-      ...challengePool.risk_reward,
-      ...challengePool.decision_scenario,
-      ...challengePool.social_stealth,
-      ...challengePool.chaos_wildcard,
-    ];
-    for (const c of shuffle(all)) {
-      if (session.length >= 8) break;
-      if (!session.some(x => x.id === c.id) && !usedMechanics.has(c.mechanic)) {
+  // Pass 2: Fill any remaining slots with strictly unique IDs
+  if (session.length < TOTAL_RUN_CHALLENGES) {
+    for (const c of shuffledAll) {
+      if (session.length >= TOTAL_RUN_CHALLENGES) break;
+      if (!session.some(x => x.id === c.id)) {
         session.push(c);
-        usedMechanics.add(c.mechanic);
       }
     }
   }
 
-  return shuffle(session.slice(0, 8));
+  return session.slice(0, TOTAL_RUN_CHALLENGES);
 }
 
 function Sparkles({ count = 16 }) {
@@ -327,27 +319,27 @@ export default function Home() {
 
   const currentRound = sessionRounds[round];
   const roundNumber = String(round + 1).padStart(2, '0');
-  const totalRounds = String(sessionRounds.length || 8).padStart(2, '0');
+  const totalRounds = String(sessionRounds.length || TOTAL_RUN_CHALLENGES).padStart(2, '0');
   const playerDisplay = playerName.trim().toUpperCase() || 'PLAYER';
   const departmentDisplay = department ? DEPARTMENT_EDITIONS[department] : 'CAMPUS EDITION';
 
   function getAuraVerdict(auraScore) {
-    if (auraScore >= 1250) {
-      return { title: 'CERTIFIED MENACE', percentile: 'Top 4%', level: 'AURA LEVEL: ILLEGAL', emoji: '👑', review: 'You clearly have questionable amounts of confidence.' };
+    if (auraScore >= 3800) {
+      return { title: 'CERTIFIED MENACE', percentile: 'Top 3%', level: 'AURA LEVEL: ILLEGAL', emoji: '👑', review: 'You clearly have questionable amounts of confidence and god-tier campus reflexes.' };
     }
-    if (auraScore >= 1000) {
-      return { title: 'MAIN CHARACTER', percentile: 'Top 12%', level: 'AURA LEVEL: S-TIER', emoji: '✨', review: 'The spotlight finds you even when you try to hide.' };
+    if (auraScore >= 3000) {
+      return { title: 'MAIN CHARACTER', percentile: 'Top 10%', level: 'AURA LEVEL: S-TIER', emoji: '✨', review: 'The spotlight finds you even when you try to hide.' };
     }
-    if (auraScore >= 800) {
+    if (auraScore >= 2300) {
       return { title: 'PLOT ARMOR ACTIVATED', percentile: 'Top 25%', level: 'AURA LEVEL: HIGH FREQUENCY', emoji: '⚡', review: 'Unexplainably surviving every campus dilemma.' };
     }
-    if (auraScore >= 600) {
+    if (auraScore >= 1600) {
       return { title: 'AURA FARMER', percentile: 'Top 45%', level: 'AURA LEVEL: RESPECTABLE', emoji: '🗿', review: 'Solid presence. The canteen staff knows your order.' };
     }
-    if (auraScore >= 400) {
+    if (auraScore >= 1000) {
       return { title: 'LOCKED IN', percentile: 'Top 68%', level: 'AURA LEVEL: CALIBRATING', emoji: '🔒', review: 'Honest effort. The redemption arc is loading.' };
     }
-    if (auraScore >= 200) {
+    if (auraScore >= 500) {
       return { title: 'BARELY HOLDING IT TOGETHER', percentile: 'Top 85%', level: 'AURA LEVEL: CRITICAL DEFICIT', emoji: '🫠', review: '74.1% attendance energy in human form.' };
     }
     return { title: 'NPC DETECTED 💀', percentile: 'Bottom 10%', level: 'AURA LEVEL: BANKRUPT', emoji: '💀', review: 'The syllabus was not covered. Run it back immediately.' };
@@ -370,7 +362,7 @@ export default function Home() {
         <div className="intro-content">
           <h1>AURA <span>RUSH</span></h1>
           <p className="intro-tagline">Think you&apos;ve got aura? Prove it.</p>
-          <p className="intro-stats"><strong>8 challenges.</strong> <strong>3 minutes.</strong> <strong>1 aura score.</strong></p>
+          <p className="intro-stats"><strong>25 challenges.</strong> <strong>3 minutes.</strong> <strong>1 aura score.</strong></p>
           <div className="profile-form">
             <label>
               <span>YOUR NAME</span>
@@ -391,7 +383,7 @@ export default function Home() {
             <small>{department ? `CAMPUS AURA: ${departmentDisplay}` : 'READY TO RUSH'}</small>
           </div>
           <button className="primary-button magnetic" onClick={startGame}>START THE CHAOS <span>→</span></button>
-          <p className="microcopy">38 UNIQUE CHALLENGES · ~3 MINUTES · SOLO AURA CHALLENGE</p>
+          <p className="microcopy">25 UNIQUE CHALLENGES · STRICTLY UNIQUE MECHANICS · SOLO</p>
         </div>
         <footer className="intro-footer">
           <span>◉ LIVE FROM CAMPUS</span>
