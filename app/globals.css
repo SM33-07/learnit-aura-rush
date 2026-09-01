@@ -87,4 +87,22 @@
 .sequence-btn{display:grid;place-items:center;width:68px;height:68px;border:1px solid rgba(210,255,0,.35);border-radius:12px;background:rgba(255,255,255,.08);font-size:32px;backdrop-filter:blur(10px);transition:transform .15s,border-color .15s,background .15s;cursor:pointer}
 .sequence-btn:hover{border-color:var(--acid);background:rgba(210,255,0,.2);transform:scale(1.1)}
 .sequence-btn:active{transform:scale(.95)}
+.rules-screen{position:relative;z-index:2;display:flex;min-height:100svh;flex-direction:column;justify-content:center;padding:48px clamp(20px,6vw,84px) 36px;text-align:center}
+.rules-content{width:min(720px,100%);margin:0 auto}
+.rules-content h2{font-size:clamp(34px,6.5vw,58px);color:var(--acid);margin:8px 0 16px;text-shadow:4px 4px 0 rgba(129,90,255,.5)}
+.rules-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0 26px;text-align:left}
+.rule-card{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.02));backdrop-filter:blur(10px)}
+.rule-icon{font-size:24px;line-height:1;margin-top:2px}
+.rule-card strong{display:block;font:700 13px 'Space Grotesk',sans-serif;color:#fff;margin-bottom:3px}
+.rule-card p{margin:0;font-size:12px;line-height:1.4;color:#c0b7cc}
+.rules-card-full{grid-column:span 2}
+.rules-content .proceed-button{margin:0 auto;width:max-content;font-size:13px;padding:16px 24px;box-shadow:6px 6px 0 var(--violet)}
+.rules-subtext{margin:18px 0 0;color:#9b92a6;font:500 10px 'DM Mono',monospace;letter-spacing:.12em}
+@media (max-width:650px){
+  .rules-grid{grid-template-columns:1fr;gap:9px}
+  .rules-card-full{grid-column:span 1}
+  .rule-card{padding:12px 14px}
+  .rules-content .proceed-button{width:100%;font-size:11.5px;padding:14px 14px}
+}
 @media (max-width:650px){.header-score-banner{padding:4px 9px}.score-val{font-size:14px}.challenge-step{font-size:9px}.aura-card-inner{padding:20px 15px 16px}.card-title{font-size:30px}.card-score-big{font-size:20px}.card-review{font-size:12.5px}.pitch-hook{font-size:15px}.pitch-copy{font-size:12px}.alarm-grid{gap:8px}.alarm-card{min-height:85px;padding:10px}.alarm-card strong{font-size:16px}.mem-icon{font-size:46px}.sequence-btn{width:56px;height:56px;font-size:26px}}
+

@@ -265,7 +265,11 @@ export default function Home() {
     };
   }, [screen]);
 
-  const startGame = () => {
+  const goToRules = () => {
+    setScreen('rules');
+  };
+
+  const startCalibration = () => {
     clearRoundTimers();
     setScore(500);
     setRound(0);
@@ -383,7 +387,7 @@ export default function Home() {
             <span className="live-dot" />
             <small>{department ? `${departmentDisplay}` : 'READY TO RUSH'}</small>
           </div>
-          <button className="primary-button magnetic" onClick={startGame}>START THE CHAOS <span>→</span></button>
+          <button className="primary-button magnetic" onClick={goToRules}>START THE CHAOS <span>→</span></button>
           <p className="microcopy">100 UNIQUE CHALLENGES · 25 PER RUN · SOLO AURA CHALLENGE</p>
         </div>
         <footer className="intro-footer">
@@ -392,7 +396,70 @@ export default function Home() {
         </footer>
       </section>}
 
-      {/* 2. RAPID CALIBRATION SCREEN */}
+      {/* 2. RULES & PROTOCOL SCREEN */}
+      {screen === 'rules' && <section className="rules-screen screen-enter">
+        <header className="topbar">
+          <span className="lab-label">✦ CAMPUS AURA LAB / 2026</span>
+          <span className="powered">POWERED BY <b>LearnIT</b></span>
+        </header>
+        <div className="rules-content">
+          <p className="eyebrow">PROTOCOL BRIEFING</p>
+          <h2>THE RULES OF AURA</h2>
+
+          <div className="rules-grid">
+            <div className="rule-card">
+              <span className="rule-icon">⚡</span>
+              <div>
+                <strong>25 RAPID ROUNDS</strong>
+                <p>10 seconds per challenge. Lock in and don&apos;t overthink.</p>
+              </div>
+            </div>
+
+            <div className="rule-card">
+              <span className="rule-icon">✦</span>
+              <div>
+                <strong>AURA ECONOMY</strong>
+                <p>Clutch moves score +150 to +250. Fumbling loses -60 to -120 💀</p>
+              </div>
+            </div>
+
+            <div className="rule-card">
+              <span className="rule-icon">🎯</span>
+              <div>
+                <strong>CHAOTIC MECHANICS</strong>
+                <p>Needles, speed alarms, blinks, budget splits &amp; {department ? `${departmentDisplay} questions` : 'branch lore'}.</p>
+              </div>
+            </div>
+
+            <div className="rule-card">
+              <span className="rule-icon">🧘</span>
+              <div>
+                <strong>DISCIPLINE CHECKS</strong>
+                <p>If a challenge says DO NOTHING, don&apos;t touch the screen!</p>
+              </div>
+            </div>
+
+            <div className="rule-card rules-card-full">
+              <span className="rule-icon">👑</span>
+              <div>
+                <strong>HOLOGRAPHIC AURA CARD</strong>
+                <p>Survive all 25 rounds to generate your screenshot-ready Aura Rank and prove you&apos;re not an NPC.</p>
+              </div>
+            </div>
+          </div>
+
+          <button className="primary-button proceed-button magnetic" onClick={startCalibration}>
+            🔥 I&apos;M LOCKED IN, LET&apos;S COOK <span>→</span>
+          </button>
+          <p className="rules-subtext">NO SECOND CHANCES · ZERO NPC ENERGY · POWERED BY LEARNIT</p>
+        </div>
+        <footer className="intro-footer">
+          <span>◉ {playerDisplay}</span>
+          <span>{departmentDisplay}</span>
+        </footer>
+      </section>}
+
+      {/* 3. RAPID CALIBRATION SCREEN */}
       {screen === 'calibrating' && <section className="calibrating-screen screen-enter" aria-live="polite">
         <p className="calibrating-label">AURA CALIBRATING...</p>
         <p className="calibrating-count" key={countdownText}>{countdownText}</p>
