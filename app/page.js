@@ -7,13 +7,40 @@ const MEMBERSHIP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScdpk6YjFtwWux8
 const ROUND_DURATION = 10;
 const ROUND_TRANSITION_MS = 1400;
 
-const CAMPUS_CLASSES = ['CSE', 'Design', 'Management', 'Other'];
+const CAMPUS_CLASSES = [
+  'CSE & AI / ML',
+  'ECE & Electrical',
+  'Mechanical & Automation',
+  'Civil & Infrastructure',
+  'Biotech & Biomedical',
+  'Design & Media',
+  'Management & MBA',
+  'Commerce & Finance',
+  'Data Science & Analytics',
+  'Law & Legal Studies',
+  'Medical & Pharmacy',
+  'Architecture & Planning',
+  'Psychology & Humanities',
+  'Pure Sciences (Maths/Physics)',
+  'Other / Multidisciplinary',
+];
 
 const DEPARTMENT_EDITIONS = {
-  CSE: 'CSE EDITION',
-  Design: 'DESIGN EDITION',
-  Management: 'MANAGEMENT EDITION',
-  Other: 'CAMPUS EDITION',
+  'CSE & AI / ML': 'CSE & AI EDITION',
+  'ECE & Electrical': 'ECE & ELECTRICAL EDITION',
+  'Mechanical & Automation': 'MECHANICAL EDITION',
+  'Civil & Infrastructure': 'CIVIL EDITION',
+  'Biotech & Biomedical': 'BIOTECH EDITION',
+  'Design & Media': 'DESIGN & MEDIA EDITION',
+  'Management & MBA': 'MANAGEMENT EDITION',
+  'Commerce & Finance': 'FINANCE EDITION',
+  'Data Science & Analytics': 'DATA SCIENCE EDITION',
+  'Law & Legal Studies': 'LAW EDITION',
+  'Medical & Pharmacy': 'MEDICAL & PHARMA EDITION',
+  'Architecture & Planning': 'ARCHITECTURE EDITION',
+  'Psychology & Humanities': 'HUMANITIES EDITION',
+  'Pure Sciences (Maths/Physics)': 'PURE SCIENCES EDITION',
+  'Other / Multidisciplinary': 'CAMPUS EDITION',
 };
 
 function shuffle(array) {
@@ -336,9 +363,9 @@ export default function Home() {
               <input value={playerName} onChange={(event) => setPlayerName(event.target.value)} maxLength="16" placeholder="e.g. SOHAM" autoComplete="name" />
             </label>
             <label>
-              <span>YOUR CAMPUS CLASS</span>
+              <span>YOUR STREAM / MAJOR</span>
               <select value={department} onChange={(event) => setDepartment(event.target.value)}>
-                <option value="">PICK ONE (OPTIONAL)</option>
+                <option value="">PICK YOUR STREAM (OPTIONAL)</option>
                 {CAMPUS_CLASSES.map((campusClass) => <option key={campusClass} value={campusClass}>{campusClass}</option>)}
               </select>
             </label>
@@ -347,7 +374,7 @@ export default function Home() {
             <span className="player-avatar">{playerName.trim().charAt(0).toUpperCase() || '✦'}</span>
             <span>{playerName.trim() ? playerDisplay : 'YOUR PLAYER CARD'}</span>
             <span className="live-dot" />
-            <small>{department ? `CAMPUS AURA: ${departmentDisplay}` : 'READY TO RUSH'}</small>
+            <small>{department ? `${departmentDisplay}` : 'READY TO RUSH'}</small>
           </div>
           <button className="primary-button magnetic" onClick={startGame}>START THE CHAOS <span>→</span></button>
           <p className="microcopy">100 UNIQUE CHALLENGES · 25 PER RUN · SOLO AURA CHALLENGE</p>
