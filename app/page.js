@@ -8,39 +8,33 @@ const ROUND_DURATION = 10;
 const ROUND_TRANSITION_MS = 1400;
 
 const CAMPUS_CLASSES = [
-  'CSE & AI / ML',
-  'ECE & Electrical',
-  'Mechanical & Automation',
-  'Civil & Infrastructure',
-  'Biotech & Biomedical',
-  'Design & Media',
-  'Management & MBA',
-  'Commerce & Finance',
-  'Data Science & Analytics',
-  'Law & Legal Studies',
-  'Medical & Pharmacy',
-  'Architecture & Planning',
-  'Psychology & Humanities',
-  'Pure Sciences (Maths/Physics)',
-  'Other / Multidisciplinary',
+  'CSE',
+  'ECE',
+  'Electrical',
+  'Mechatronics',
+  'Mechanical',
+  'Civil',
+  'Biotech',
+  'Management',
+  'Commerce',
+  'Law',
+  'Psychology',
+  'Other',
 ];
 
 const DEPARTMENT_EDITIONS = {
-  'CSE & AI / ML': 'CSE & AI EDITION',
-  'ECE & Electrical': 'ECE & ELECTRICAL EDITION',
-  'Mechanical & Automation': 'MECHANICAL EDITION',
-  'Civil & Infrastructure': 'CIVIL EDITION',
-  'Biotech & Biomedical': 'BIOTECH EDITION',
-  'Design & Media': 'DESIGN & MEDIA EDITION',
-  'Management & MBA': 'MANAGEMENT EDITION',
-  'Commerce & Finance': 'FINANCE EDITION',
-  'Data Science & Analytics': 'DATA SCIENCE EDITION',
-  'Law & Legal Studies': 'LAW EDITION',
-  'Medical & Pharmacy': 'MEDICAL & PHARMA EDITION',
-  'Architecture & Planning': 'ARCHITECTURE EDITION',
-  'Psychology & Humanities': 'HUMANITIES EDITION',
-  'Pure Sciences (Maths/Physics)': 'PURE SCIENCES EDITION',
-  'Other / Multidisciplinary': 'CAMPUS EDITION',
+  CSE: 'CSE EDITION',
+  ECE: 'ECE EDITION',
+  Electrical: 'ELECTRICAL EDITION',
+  Mechatronics: 'MECHATRONICS EDITION',
+  Mechanical: 'MECHANICAL EDITION',
+  Civil: 'CIVIL EDITION',
+  Biotech: 'BIOTECH EDITION',
+  Management: 'MANAGEMENT EDITION',
+  Commerce: 'COMMERCE EDITION',
+  Law: 'LAW EDITION',
+  Psychology: 'PSYCHOLOGY EDITION',
+  Other: 'CAMPUS EDITION',
 };
 
 function shuffle(array) {
@@ -52,7 +46,7 @@ function shuffle(array) {
   return pool;
 }
 
-import { CHALLENGE_POOL_100 } from './challenges';
+import { CHALLENGE_POOL_100, STREAM_SPECIALIZED_CHALLENGES } from './challenges';
 
 // 35 DISTINCT INTERACTION PATTERN FAMILIES TO GUARANTEE 25 STRICTLY UNIQUE PATTERNS PER RUN
 const PATTERN_MAP = {
@@ -95,11 +89,24 @@ const PATTERN_MAP = {
 
 const TOTAL_RUN_CHALLENGES = 25;
 
-function pickBalancedSession() {
-  const shuffledAll = shuffle(CHALLENGE_POOL_100);
+function pickBalancedSession(selectedDepartment) {
   const usedPatterns = new Set();
   const session = [];
 
+  // 1. If user picked a specialized campus stream, inject stream-tailored challenges first
+  if (selectedDepartment && STREAM_SPECIALIZED_CHALLENGES[selectedDepartment]) {
+    const streamPool = shuffle(STREAM_SPECIALIZED_CHALLENGES[selectedDepartment]);
+    for (const sc of streamPool) {
+      const pattern = PATTERN_MAP[sc.mechanic] || sc.mechanic;
+      if (!usedPatterns.has(pattern)) {
+        session.push(sc);
+        usedPatterns.add(pattern);
+      }
+    }
+  }
+
+  // 2. Fill the rest of the 25 rounds with strictly unique interaction patterns from the 100 pool
+  const shuffledAll = shuffle(CHALLENGE_POOL_100);
   for (const c of shuffledAll) {
     if (session.length >= TOTAL_RUN_CHALLENGES) break;
     const pattern = PATTERN_MAP[c.mechanic] || c.mechanic;
@@ -262,7 +269,7 @@ export default function Home() {
     clearRoundTimers();
     setScore(500);
     setRound(0);
-    setSessionRounds(pickBalancedSession());
+    setSessionRounds(pickBalancedSession(department));
     setIsResolving(false);
     setToast(null);
     setFriendModal(false);
@@ -280,7 +287,7 @@ export default function Home() {
     setPlayerName('');
     setScore(500);
     setRound(0);
-    setSessionRounds(pickBalancedSession());
+    setSessionRounds(pickBalancedSession(department));
     setIsResolving(false);
     setToast(null);
     setFriendModal(false);

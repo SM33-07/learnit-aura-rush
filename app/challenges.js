@@ -1519,3 +1519,525 @@ export const CHALLENGE_POOL_100 = [
     ]
   }
 ];
+
+// STREAM-SPECIALIZED CHALLENGES CURATED PER CAMPUS CLASS
+export const STREAM_SPECIALIZED_CHALLENGES = {
+  CSE: [
+    {
+      id: 'cse_1',
+      category: 'reaction_timing',
+      kind: 'winloss',
+      mechanic: 'binary',
+      eyebrow: 'CSE CODE CHAOS',
+      title: 'PUSHING STRAIGHT TO MAIN AT 4:00 AM',
+      copy: 'No PR, no code review, pure caffeine energy. Is this a W or an L?',
+      layout: 'binary',
+      options: [
+        ['W', 'CHAOS GIGA-CHAD', 160, 'PIPELINE PASSED BY A MIRACLE.'],
+        ['L', 'PRODUCTION BROKE', -80, 'SERVERS ON FIRE 💀']
+      ]
+    },
+    {
+      id: 'cse_2',
+      category: 'risk_reward',
+      kind: 'oneChance',
+      mechanic: 'all_or_nothing',
+      eyebrow: 'CSE DEBUG EMERGENCY',
+      title: 'SEGMENTATION FAULT (CORE DUMPED)',
+      copy: '5 minutes before project submission. How do you fix it?',
+      layout: 'danger',
+      options: [
+        ['COMMENT OUT THE LINE & RECOMPILE', 'COWBOY FIX', 180, 'IT COMPILED AND DEMO WORKED.'],
+        ['ASK CHATGPT 4.0 WITH 10 SECONDS LEFT', 'AI CLUTCH', 150, 'MEMORY LEAK RESOLVED.'],
+        ['READ 800 LINES OF GDB STACK TRACE', 'PURIST TORTURE', 40, 'RAN OUT OF TIME.'],
+        ['DELETE THE REPO', 'ACCEPT EXTINCTION', -150, 'CAREER IN SHAMBLES.']
+      ]
+    },
+    {
+      id: 'cse_3',
+      category: 'memory_observation',
+      kind: 'whoSent',
+      mechanic: 'archetype',
+      eyebrow: 'CSE ARCHETYPE SPOTTER',
+      title: '“CAN WE BUILD THIS IN RUST FOR 0.002% PERFORMANCE GAIN?”',
+      copy: 'Identify this typical CSE creature.',
+      layout: 'chips',
+      options: [
+        ['🦀', 'THE RUST EVANGELIST', 160, 'REWRITING EVERYTHING IN RUST.'],
+        ['🐍', 'THE PYTHON SLOW-POKE', -40, 'IMPORT EVERYTHING.'],
+        ['☕', 'JAVA ENTERPRISE VETERAN', -60, 'FACTORY BUILDER VISITOR PATTERN.'],
+        ['🌐', 'HTML IS A LANGUAGE GUY', -80, 'WRONG CONTINENT.']
+      ]
+    }
+  ],
+
+  ECE: [
+    {
+      id: 'ece_1',
+      category: 'reaction_timing',
+      kind: 'blink',
+      mechanic: 'reflex',
+      eyebrow: 'ECE LAB REFLEX',
+      title: 'DON’T SHORT CIRCUIT THE POWER SUPPLY!',
+      copy: 'Tap the exact millisecond the red LED flashes to cut power.',
+      layout: 'blink'
+    },
+    {
+      id: 'ece_2',
+      category: 'decision_scenario',
+      kind: 'wrongClass',
+      mechanic: 'dialogue',
+      eyebrow: 'ECE BREADBOARD DISASTER',
+      title: 'MAGIC SMOKE EMERGES FROM THE IC CHIP.',
+      copy: 'What is your immediate laboratory reaction?',
+      layout: 'dialogue',
+      options: [
+        ['“THAT WAS A THERMAL STRESS TEST, SIR”', 'BIG BRAIN EXCUSE', 180, 'TA GIVES FULL MARKS FOR CREATIVITY.'],
+        ['BLOW ON IT LIKE A BIRTHDAY CANDLE', 'PANIC MOVE', 60, 'SMOKE COVERS THE TABLE.'],
+        ['SWAP IT WITH BENCHMATE’S IC CHIP', 'SNEAKY PIRATE', 120, 'HE GETS BLAMED INSTEAD.'],
+        ['LICK THE 9V BATTERY TO TEST VOLTAGE', 'UNHINGED', -80, 'TONGUE TINGLING FOR 3 DAYS.']
+      ]
+    },
+    {
+      id: 'ece_3',
+      category: 'risk_reward',
+      kind: 'ratio',
+      mechanic: 'prediction',
+      eyebrow: 'ECE HARDWARE REALITY',
+      title: '“BREADBOARDS HAVE A 90% CHANCE OF LOOSE CONNECTIONS.”',
+      copy: 'Predict hardware lab consensus.',
+      layout: 'binary',
+      options: [
+        ['100% FACT', 'UNIVERSAL TRUTH', 150, 'WIGGLED THE WIRE AND IT WORKED.'],
+        ['FALSE', 'DELUSION', -60, 'NEVER TOUCHED A JUMPER WIRE.']
+      ]
+    }
+  ],
+
+  Electrical: [
+    {
+      id: 'ee_1',
+      category: 'reaction_timing',
+      kind: 'timing',
+      mechanic: 'timing_bar',
+      eyebrow: 'ELECTRICAL GRID CLUTCH',
+      title: 'SYNCHRONIZE THE 3-PHASE ALTERNATOR!',
+      copy: 'Stop the needle dead in the center to avoid blowing up the campus transformer.',
+      layout: 'timing'
+    },
+    {
+      id: 'ee_2',
+      category: 'decision_scenario',
+      kind: 'canteenBudget',
+      mechanic: 'budget',
+      eyebrow: 'HIGH VOLTAGE SURVIVAL',
+      title: 'SUBSTATION TRIP AT 8:00 AM.',
+      copy: 'Choose your weapon for power restoration.',
+      layout: 'budget',
+      options: [
+        ['INSULATED RUBBER GLOVES + MULTIMETER', 'CERTIFIED ELECTRICIAN', 160, 'POWER RESTORED TO CAMPUS.'],
+        ['WOODEN STICK OF TRUTH', 'DESI ENGINEERING', 140, 'POKED BREAKER AND IT CLICKED.'],
+        ['BARE HANDS', 'ELECTRIC CHAIR SPEEDRUN', -200, 'AURA AND LIFE IN DANGER.'],
+        ['SUBMIT COMPLAINT TICKET ON PORTAL', 'BUREAUCRACY', -40, 'POWER RESTORED IN 2028.']
+      ]
+    },
+    {
+      id: 'ee_3',
+      category: 'chaos_wildcard',
+      kind: 'rather',
+      mechanic: 'versus',
+      eyebrow: 'ELECTRICAL DILEMMA',
+      title: 'WOULD YOU RATHER TOUCH AC VOLTAGE OR DC VOLTAGE?',
+      copy: 'Pick your electrical frequency.',
+      layout: 'versus',
+      options: [
+        ['50Hz AC VOLTAGE', 'OSCILLATING PAIN', 130, 'HEARTSYNC PASS.'],
+        ['HIGH CURRENT DC', 'PERMANENT WELD', 100, 'MAGNETIC SURPRISE.']
+      ]
+    }
+  ],
+
+  Mechatronics: [
+    {
+      id: 'mechtron_1',
+      category: 'memory_observation',
+      kind: 'sequence',
+      mechanic: 'sequence',
+      eyebrow: 'MECHATRONICS ROBOT CALIBRATION',
+      title: 'PROGRAM THE 3-AXIS ROBOTIC ARM!',
+      copy: 'Tap in exact sequence: 🤖 → ⚙️ → ⚡',
+      layout: 'sequence',
+      targetSequence: ['🤖', '⚙️', '⚡'],
+      choices: ['🤖', '⚙️', '⚡', '💥']
+    },
+    {
+      id: 'mechtron_2',
+      category: 'decision_scenario',
+      kind: 'wrongClass',
+      mechanic: 'dialogue',
+      eyebrow: 'MECHATRONICS LAB DISASTER',
+      title: 'ROBOT ARM FLUNG A WRENCH ACROSS THE LAB.',
+      copy: 'Explain this ballistic trajectory to the professor.',
+      layout: 'dialogue',
+      options: [
+        ['“THE AI ACHIEVED SENTIENCE AND CHOSE VIOLENCE”', 'CYBERNETIC COPE', 180, 'PROFESSOR IS INTRIGUED.'],
+        ['“INVERSE KINEMATICS CALCULATION ERROR”', 'ACADEMIC EXCUSE', 130, 'MATH PASS.'],
+        ['BLAME THE MECHANICAL STUDENTS', 'INTER-BRANCH WAR', 90, 'CLASSIC SCAPEGOAT.'],
+        ['RUN AWAY WITH THE ROBOT', 'FUGITIVE', 60, 'CYBORG REBELLION.']
+      ]
+    },
+    {
+      id: 'mechtron_3',
+      category: 'risk_reward',
+      kind: 'hotTake',
+      mechanic: 'binary_opinion',
+      eyebrow: 'MECHATRONICS SUPREMACY',
+      title: '“MECHATRONICS IS JUST CSE WITH SCREWDRIVERS.”',
+      copy: 'Is this take a W or an L?',
+      layout: 'binary',
+      options: [
+        ['W', 'FACTS', 140, 'WE CODE AND WE SOLDER.'],
+        ['L', 'OFFENDED', -60, 'WE HAVE MOTORS AND PNEUMATICS!']
+      ]
+    }
+  ],
+
+  Mechanical: [
+    {
+      id: 'mech_1',
+      category: 'reaction_timing',
+      kind: 'alarm',
+      mechanic: 'alarm_picker',
+      eyebrow: 'MECHANICAL WORKSHOP SPEEDRUN',
+      title: 'SHUT DOWN THE LATHE BEFORE CHIPS FLY!',
+      copy: 'Dismiss the EMERGENCY STOP switch in 0.5s!',
+      layout: 'alarms',
+      alarms: [
+        { time: 'COOLANT VALVE', label: 'WATER FLOW', correct: false },
+        { time: 'E-STOP BUTTON', label: 'RED MUSHROOM', correct: true },
+        { time: 'SPEED DIAL', label: 'RPM INCREASE', correct: false },
+        { time: 'CHUCK KEY', label: 'STILL INSERTED', correct: false }
+      ]
+    },
+    {
+      id: 'mech_2',
+      category: 'decision_scenario',
+      kind: 'hostelCrisis',
+      mechanic: 'route',
+      eyebrow: 'CAD EXAM TRAUMA',
+      title: 'SOLIDWORKS CRASHED AT 99% RENDERING.',
+      copy: 'Auto-save was last configured in 2014. What now?',
+      layout: 'route',
+      options: [
+        ['REDRAW ENTIRE CRANKSHAFT IN 7 MINS FLAT', 'CAD SPEEDRUNNER', 200, 'ABSOLUTE CINEMA.'],
+        ['SUBMIT A CORRUPTED .SLDPRT FILE', 'TACTICAL GLITCH', 140, 'BOUGHT 2 DAYS OF EXTRA TIME.'],
+        ['PUNCH THE MONITOR', 'PERCUSSIVE GRIEF', -100, 'FINE: ₹15,000.'],
+        ['SWITCH TO MECHANICAL DRAWING SHEET & T-SQUARE', 'BOOMER TECH', 80, 'RESPECT FOR TRADITION.']
+      ]
+    },
+    {
+      id: 'mech_3',
+      category: 'social_stealth',
+      kind: 'npcDetector',
+      mechanic: 'chips',
+      eyebrow: 'MECHANICAL WORKSHOP AURA',
+      title: 'IDENTIFY PEAK MECHANICAL STUDENT AURA.',
+      copy: 'One of these radiates pure thermodynamics energy.',
+      layout: 'chips',
+      options: [
+        ['GREASE ON FOREHEAD + BOILER SUIT SWAGGER', 'CHAD ENGINEER', 160, 'MAXIMUM WORKSHOP AURA.'],
+        ['CARRIES A DIGITAL VERNIER CALIPER EVERYWHERE', 'PRECISION NERD', 90, 'MEASURING CANTEEN SAMOSAS.'],
+        ['COMPLAINS ABOUT LACK OF GIRLS IN CLASS', 'REPETITIVE NPC', -60, 'HEARD THIS JOKE 800 TIMES.'],
+        ['CALCULATES GEAR RATIO OF CEILING FAN', 'AUTISTIC GENIUS', 130, 'RPM IS 320.']
+      ]
+    }
+  ],
+
+  Civil: [
+    {
+      id: 'civil_1',
+      category: 'reaction_timing',
+      kind: 'timing',
+      mechanic: 'timing_bar',
+      eyebrow: 'CIVIL THEODOLITE LEVELING',
+      title: 'CENTER THE SPIRIT LEVEL BUBBLE!',
+      copy: 'Level the surveying tripod before the sun sets on the campus field.',
+      layout: 'timing'
+    },
+    {
+      id: 'civil_2',
+      category: 'risk_reward',
+      kind: 'oneChance',
+      mechanic: 'all_or_nothing',
+      eyebrow: 'CONCRETE STRENGTH VIVA',
+      title: 'M25 GRADE CONCRETE CRUSHED AT ONLY 12 MPa.',
+      copy: 'Explain this structural catastrophe to the professor.',
+      layout: 'danger',
+      options: [
+        ['“IT IS SPECIAL SELF-HEALING BIO-CONCRETE, SIR”', 'VISIONARY COPE', 180, 'PROFESSOR WRITES A GRANT PROPOSAL.'],
+        ['“CURING WATER WAS CONSUMED BY HOSTEL RESIDENTS”', 'HOSTEL REALITY', 120, 'PITY PASS.'],
+        ['“THE TESTING MACHINE IS UNCALIBRATED”', 'BLAME LAB HARDWARE', 140, 'TA APOLOGISES TO YOU.'],
+        ['ACCEPT THAT BUILDING WILL COLLAPSE', 'CIVIL DISASTER', -140, 'LICENSE REVOKED.']
+      ]
+    },
+    {
+      id: 'civil_3',
+      category: 'chaos_wildcard',
+      kind: 'rather',
+      mechanic: 'versus',
+      eyebrow: 'CIVIL FIELD WORK',
+      title: 'WOULD YOU RATHER SURVEY IN 42°C HEAT OR DRAFT IN 2D AUTOCAD ALL NIGHT?',
+      copy: 'Choose your construction suffering.',
+      layout: 'versus',
+      options: [
+        ['42°C SURVEYING IN THE SUN', 'YELLOW HELMET TAN', 130, 'VITAMIN D OVERDOSE.'],
+        ['ALL NIGHT AUTOCAD DRAFTING', 'MOUSE CLICK CRAMP', 130, 'ORTHO MODE LOCKED.']
+      ]
+    }
+  ],
+
+  Biotech: [
+    {
+      id: 'biotech_1',
+      category: 'reaction_timing',
+      kind: 'cap',
+      mechanic: 'stamps',
+      eyebrow: 'BIOTECH STERILE CHECK',
+      title: '“I DEFINITELY AUTOCLAVED THIS PETRI DISH”',
+      copy: 'There is a fuzzy blue colony growing on the edge. Call it!',
+      layout: 'stamps',
+      options: [
+        ['CAP', 'EXPOSE CONTAMINATION', 150, 'DISPOSAL PROTOCOL ACTIVATED.'],
+        ['NO CAP', 'TRUST THE MOLD', -80, 'NEW VIRUS CREATED IN DORM.']
+      ]
+    },
+    {
+      id: 'biotech_2',
+      category: 'decision_scenario',
+      kind: 'wrongClass',
+      mechanic: 'dialogue',
+      eyebrow: 'BIOTECH PIPETTE EMERGENCY',
+      title: 'SET MICROPIPETTE TO 1000μL INSTEAD OF 10μL.',
+      copy: 'The entire ₹40,000 enzyme vial was aspirated in one second.',
+      layout: 'dialogue',
+      options: [
+        ['“I DOUBLED THE CONCENTRATION FOR FASTER DISCOVERY”', 'NOBEL PRIZE COPE', 180, 'PROFESSOR IS SPEECHLESS.'],
+        ['FILL VIAL BACK WITH DISTILLED WATER', 'HOMOEOPATHIC FIX', 130, 'NOBODY WILL EVER KNOW.'],
+        ['ACCUSE THE LAB RAT', 'RODENT BETRAYAL', 80, 'RAT DETAINED.'],
+        ['CRY INTO THE LAMINAR AIR FLOW', 'UNSTERILE TEARS', -100, 'LAB SHUT DOWN.']
+      ]
+    },
+    {
+      id: 'biotech_3',
+      category: 'social_stealth',
+      kind: 'chips',
+      mechanic: 'chips',
+      eyebrow: 'BIOTECH AURA',
+      title: 'WHAT GIVES A BIOTECH STUDENT MAXIMUM STREET CRED?',
+      copy: 'Choose the ultimate biotech flex.',
+      layout: 'chips',
+      options: [
+        ['WEARS LAB COAT TO CANTEEN LIKE A MAD SCIENTIST', 'MAIN CHARACTER', 160, 'EVERYONE THINKS YOU ARE MAKING ANTIDOTES.'],
+        ['UNDERSTANDS CRISPR CAS9 MEMES', 'GENETICIST', 120, 'DNA EDITED.'],
+        ['EATS YOGURT BECAUSE OF PROBIOTICS', 'NUTRITION NPC', 40, 'HEALTHY BUT BORING.'],
+        ['DROPS PCR TUBE ON FLOOR AND PICKS IT UP IN 5S', '5 SECOND RULE', -60, 'CONTAMINATED.']
+      ]
+    }
+  ],
+
+  Management: [
+    {
+      id: 'mgmt_1',
+      category: 'memory_observation',
+      kind: 'slang',
+      mechanic: 'definition',
+      eyebrow: 'MANAGEMENT BUZZWORD SCAN',
+      title: '“LET’S CIRCLE BACK AND SYNERGIZE OFFLINE”',
+      copy: 'Translate this corporate MBA phrase into plain English.',
+      layout: 'definition',
+      options: [
+        ['“I WILL IGNORE THIS UNTIL IT BECOMES YOUR PROBLEM”', 'TRUE TRANSLATION', 160, 'YOU SPEAK EXECUTIVE.'],
+        ['“LET’S HUG IN A CIRCLE”', 'LITERAL CULT', -60, 'HR REPORT FILED.'],
+        ['“WE ARE WORKING HARD”', 'DELUSION', -40, 'NO WORK IS HAPPENING.'],
+        ['“MEETING CANCELLED”', 'CLOSE ENOUGH', 80, 'PARTIAL CREDIT.']
+      ]
+    },
+    {
+      id: 'mgmt_2',
+      category: 'chaos_wildcard',
+      kind: 'roast',
+      mechanic: 'split',
+      eyebrow: 'MANAGEMENT PITCH CRITIQUE',
+      title: 'PRESENTATION DECK HAS 58 SLIDES WITH 6 PIE CHARTS & 0 WORKING PRODUCTS.',
+      copy: 'Judge this MBA masterpiece.',
+      layout: 'split',
+      options: [
+        ['🔥 RESPECT', 'VC WILL INVEST $10M', 140, 'REVENUE IS A FUTURE PROBLEM.'],
+        ['💀 ROAST', 'YAPPING WITHOUT CODING', 140, 'LEARNIT BUILDERS DISAGREE.']
+      ]
+    },
+    {
+      id: 'mgmt_3',
+      category: 'risk_reward',
+      kind: 'invest',
+      mechanic: 'invest',
+      eyebrow: 'B-PLAN PITCH COMPETITION',
+      title: 'WHERE DO YOU DEPLOY 200 AURA IN YOUR B-PLAN?',
+      copy: 'Maximise ROI on campus.',
+      layout: 'build-cards',
+      options: [
+        ['📈 “UBER FOR DOG GROOMING”', 'VC MAGNET', 180, 'SERIES A FUNDED.'],
+        ['📊 EXPENSE AUTOMATION USING EXCEL', 'PRACTICAL', 120, 'SOLID CASH FLOW.'],
+        ['☕ CHAI SUBSCRIPTION PASS FOR CANTEEN', 'CAMPUS MONOPOLY', 220, 'CASH COW BUSINESS.'],
+        ['📉 CRYPTO METAVERSE RESORT', 'RUG PULL', -120, 'INVESTORS SUING.']
+      ]
+    }
+  ],
+
+  Commerce: [
+    {
+      id: 'comm_1',
+      category: 'decision_scenario',
+      kind: 'exam',
+      mechanic: 'exam',
+      eyebrow: 'COMMERCE AUDIT BOSS FIGHT',
+      title: 'BALANCE SHEET MISMATCH BY EXACTLY ₹1.',
+      copy: 'It is 2:45 AM on accounting assignment night. How do you balance it?',
+      layout: 'exam',
+      options: [
+        ['CREATE “SUSPENSE ACCOUNT: ₹1”', 'LEGENDARY ACCOUNTANT', 180, 'BALANCE SHEET BALANCED!'],
+        ['ADD ₹1 TO CASH IN HAND FROM YOUR POCKET', 'DESPERATE AUDITOR', 140, 'AUDIT CLEARED.'],
+        ['RECALCULATE ALL 400 ENTRIES FROM SCRATCH', 'MASOCHIST', 50, 'STILL OFF BY ₹1 AT 6 AM.'],
+        ['BLAME INFLATION', 'MACROECONOMIC COPE', -80, 'ZERO MARKS.']
+      ]
+    },
+    {
+      id: 'comm_2',
+      category: 'risk_reward',
+      kind: 'hotTake',
+      mechanic: 'binary_opinion',
+      eyebrow: 'COMMERCE HOT TAKE',
+      title: '“EXCEL > EVERY CODING LANGUAGE EVER INVENTED.”',
+      copy: 'Is this take a W or an L?',
+      layout: 'binary',
+      options: [
+        ['W', 'VLOOKUP SUPREMACY', 150, 'WALL STREET RUNS ON .XLSX.'],
+        ['L', 'PROGRAMMER COPE', -50, 'PYTHON HAS PANDAS BRO.']
+      ]
+    },
+    {
+      id: 'comm_3',
+      category: 'social_stealth',
+      kind: 'chips',
+      mechanic: 'chips',
+      eyebrow: 'COMMERCE STREET CRED',
+      title: 'HOW DO YOU PROVE YOU ARE A FINANCE PRODIGY?',
+      copy: 'Select the ultimate financial flex.',
+      layout: 'chips',
+      options: [
+        ['SPLIT THE CANTEEN BILL TO 4 DECIMAL PLACES', 'FINANCIAL TERRORIST', 140, 'EXACT MATH.'],
+        ['CHECK STOCK PRICES ON LOCKSCREEN DURING CLASS', 'WOLF OF CAMPUS', 130, 'GREEN CANDLES.'],
+        ['GIVE UNSOLICITED TAX ADVICE TO PROFESSOR', 'AUDACIOUS', 160, 'PROFESSOR SAVED ₹14,000.'],
+        ['LOSE ₹200 ON TRADING APP AND CRY', 'RETAIL TRADER', -60, 'PORTFOLIO RECKED.']
+      ]
+    }
+  ],
+
+  Law: [
+    {
+      id: 'law_1',
+      category: 'reaction_timing',
+      kind: 'winloss',
+      mechanic: 'binary',
+      eyebrow: 'MOOT COURT REFLEX',
+      title: 'OPPOSING COUNSEL DROPS HEARSAY EVIDENCE.',
+      copy: 'Make the immediate objection before the judge rules!',
+      layout: 'binary',
+      options: [
+        ['OBJECTION, HEARSAY!', 'SUSTAINED (+160)', 160, 'JUDGE NODS IN APPROVAL.'],
+        ['STARE IN SILENCE', 'OVERRULED (-70)', -70, 'EVIDENCE ADMITTED.']
+      ]
+    },
+    {
+      id: 'law_2',
+      category: 'decision_scenario',
+      kind: 'wrongClass',
+      mechanic: 'dialogue',
+      eyebrow: 'HOSTEL WARDEN TRIBUNAL',
+      title: 'WARDEN CAUGHT YOU COOKING MAGGI IN THE DORM ROOM.',
+      copy: 'Defend your constitutional right to midnight noodles.',
+      layout: 'dialogue',
+      options: [
+        ['“ARTICLE 21 GUARANTEES RIGHT TO LIFE & NOODLES”', 'SUPREME COURT AURA', 200, 'WARDEN WITHDRAWS FINE.'],
+        ['“THE KETTLE BELONGS TO MY PREVIOUS ROOMMATE”', 'BURDEN OF PROOF', 120, 'EVIDENCE INSUFFICIENT.'],
+        ['OFFER WARDEN A BOWL OF MAGGI', 'SETTLEMENT OFFER', 150, 'OUT OF COURT SETTLEMENT.'],
+        ['PLEAD GUILTY AND CONFESS TO 12 OTHER CRIMES', 'WORST LAWYER', -120, 'EXPELLED FROM HOSTEL.']
+      ]
+    },
+    {
+      id: 'law_3',
+      category: 'memory_observation',
+      kind: 'libraryBoss',
+      mechanic: 'priority',
+      eyebrow: 'LAW LIBRARY BOSS FIGHT',
+      title: 'YOU HAVE 800 PAGES OF BARE ACTS TO READ TONIGHT.',
+      copy: 'What is your tactical legal preparation method?',
+      layout: 'danger',
+      options: [
+        ['READ ONLY THE LANDMARK 3-PARAGRAPH RATIO DECIDENDI', 'EFFICIENT ADVOCATE', 160, 'PASSED VIVA WITH DISTINCTION.'],
+        ['CITE FAKE CASE LAWS WITH HIGH CONFIDENCE', 'HARVEY SPECTER MOVE', 180, 'PROFESSOR DIDN’T CHECK THE CITATION.'],
+        ['READ EVERY FOOTNOTE IN LATIN', 'SCHOLAR TORTURE', 40, 'ASLEEP BY PAGE 14.'],
+        ['SUE THE UNIVERSITY FOR SLEEP DEPRIVATION', 'UNHINGED LITIGATION', 100, 'CASE ADMITTED.']
+      ]
+    }
+  ],
+
+  Psychology: [
+    {
+      id: 'psych_1',
+      category: 'memory_observation',
+      kind: 'whoSent',
+      mechanic: 'archetype',
+      eyebrow: 'PSYCHOLOGICAL DIAGNOSIS',
+      title: '“HE DIDN’T REPLY IN 4 MINUTES, HE MUST BE NARCISSISTIC”',
+      copy: 'Diagnose this over-analyzing campus personality.',
+      layout: 'chips',
+      options: [
+        ['🧠', 'THE FREUDIAN OVERTHINKER', 160, 'PROJECTION & DEFENSE MECHANISM.'],
+        ['📱', 'THE DELUSIONAL DATER', 120, 'ANXIOUS ATTACHMENT STYLE.'],
+        ['🗿', 'THE STOIC NPC', -40, 'UNBOTHERED.'],
+        ['👻', 'THE GHOST', 30, 'HE WAS JUST PLAYING VALORANT.']
+      ]
+    },
+    {
+      id: 'psych_2',
+      category: 'decision_scenario',
+      kind: 'wrongClass',
+      mechanic: 'dialogue',
+      eyebrow: 'PAVLOVIAN CANTEEN HACK',
+      title: 'CONDITIONING CANTEEN BHAIYA TO GIVE EXTRA CHEESE.',
+      copy: 'Deploy psychological behavioral conditioning.',
+      layout: 'dialogue',
+      options: [
+        ['SMILE & SAY “THANK YOU BHAIYA” EVERY SINGLE TIME', 'POSITIVE REINFORCEMENT', 180, 'EXTRA CHEESE GRANTED FOREVER.'],
+        ['PLAY A BELL RING BEFORE ASKING FOR SAMOSA', 'CLASSICAL CONDITIONING', 140, 'BHAIYA SALIVATES.'],
+        ['STARE INTO HIS SOUL WITHOUT BLINKING', 'INTIMIDATION', -60, 'BHAIYA CHARGES EXTRA ₹10.'],
+        ['ANALYZE HIS CHILDHOOD TRAUMA', 'OVERSTEPPED', -80, 'KICKED OUT OF CANTEEN.']
+      ]
+    },
+    {
+      id: 'psych_3',
+      category: 'risk_reward',
+      kind: 'hotTake',
+      mechanic: 'binary_opinion',
+      eyebrow: 'PSYCHOLOGY TRUTH BOMB',
+      title: '“‘I CAN FIX HIM/HER’ HAS A 0.00% SUCCESS RATE.”',
+      copy: 'Is this take a W or an L?',
+      layout: 'binary',
+      options: [
+        ['W', 'PSYCHOLOGICAL FACT', 160, 'CANNOT FIX TOXICITY.'],
+        ['L', 'HOPEFUL DELUSION', -60, 'CHARACTER DEVELOPMENT ARC FAILED.']
+      ]
+    }
+  ]
+};
