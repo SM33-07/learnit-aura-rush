@@ -2,7 +2,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'AURA RUSH — LearnIT',
-  description: 'A fast, chaotic campus aura arcade game by LearnIT.',
+  description: 'Think you have aura? Prove it. A fast, chaotic campus game by LearnIT.',
 };
 
 export default function RootLayout({ children }) {

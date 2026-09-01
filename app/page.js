@@ -2,9 +2,30 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const MEMBERSHIP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScdpwK6YjFtwWux8XXBr7tJRYrIlJSdsTNbfT3mahZShdCxHQ/viewform';
+const MEMBERSHIP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScdpk6YjFtwWux8XXBr7tJRYrIlJSdsTNbfT3mahZShdCxHQ/viewform';
 
-const ROUND_DURATION = 12;
+const ROUND_DURATION = 10;
+const CHALLENGES_MIN = 8;
+const CHALLENGES_MAX = 10;
+const ROUND_TRANSITION_MS = 1800;
+
+const CAMPUS_CLASSES = ['CSE', 'Design', 'Management', 'Other'];
+
+const DEPARTMENT_EDITIONS = {
+  CSE: 'CSE EDITION',
+  Design: 'DESIGN EDITION',
+  Management: 'MANAGEMENT EDITION',
+  Other: 'CAMPUS EDITION',
+};
+
+function shuffleRounds(rounds) {
+  const pool = [...rounds];
+  for (let index = pool.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [pool[index], pool[swapIndex]] = [pool[swapIndex], pool[index]];
+  }
+  return pool;
+}
 
 const legacyRounds = [
   { type: 'blink', eyebrow: 'REFLEX TEST', title: <>DON&apos;T<br />BLINK.</>, copy: 'Tap the moment the eye closes. No flinching.' },
@@ -57,7 +78,7 @@ const gameRounds = [
   { kind: 'fillBlank', eyebrow: 'COMPLETE THE LINE', title: <>“BRO IS<br />_____.”</>, copy: 'The chat has seen the situation.', layout: 'chips', options: [['COOKED', 'THE CLASSIC', 120, 'LINGUISTIC AURA.'], ['THE SYLLABUS', 'GRAMMATICALLY ILLEGAL', -40, 'SENTENCE FUMBLED.'], ['A LECTURE', 'UNHINGED', 35, 'STRANGE BUT BOLD.'], ['ON VACATION', 'OPTIMISTIC', 10, 'NOT THE VIBE.']] },
   { kind: 'translate', eyebrow: 'GROUP CHAT TRANSLATOR', title: <>“NAH TS IS<br />COOKED NGL 💀”</>, copy: 'What is the overall vibe?', layout: 'chat', options: [['EVERYTHING IS PERFECT', 'DELUSION', -50, 'READ IT AGAIN.'], ['THIS IS TERRIBLE', 'TRANSLATION', 120, 'FLUENT.'], ['SOMEONE IS HUNGRY', 'RANDOM', -20, 'WHERE DID FOOD COME FROM?'], ['WE ARE LEAVING', 'POSSIBLE', 30, 'MAYBE.']] },
   { kind: 'winloss', eyebrow: 'W OR L?', title: <>SUBMITTED AT 11:59.<br />DEADLINE: 12:00.</>, copy: 'Make the call.', layout: 'binary', options: [['W', 'CLUTCH', 130, 'THE ROOM SAYS W.'], ['L', 'FUMBLE', -50, 'THE ROOM DISAGREES.']] },
-  { kind: 'cap', eyebrow: 'CAP DETECTOR', title: <>“I STARTED STUDYING<br />THREE DAYS AGO.”</>, copy: 'Trust them or call it out.', layout: 'stamps', options: [['NO CAP', 'BELIEVE', 40, 'WHOLESOME.'], ['CAP', 'CALL IT', 120, 'LIE DETECTED.']] },
+  { kind: 'cap', eyebrow: 'CAP DETECTOR', title: <>YOUR FRIEND SAYS<br />“BRO I STUDIED.”</>, copy: 'Cap or no cap?', layout: 'stamps', options: [['NO CAP', 'BELIEVE', 40, 'WHOLESOME.'], ['CAP', 'CALL IT', 120, 'LIE DETECTED.']] },
   { kind: 'npcDialogue', eyebrow: 'NPC DIALOGUE', title: <>PROFESSOR: “ANY<br />VOLUNTEERS?”</>, copy: 'Choose the classic response.', layout: 'dialogue', options: [['LOOK DOWN IMMEDIATELY', 'NPC RESPONSE', 120, 'NPC LEVEL MAXIMUM.'], ['RAISE YOUR HAND', 'BRAVE', 70, 'PROTAGONIST MOVE.'], ['LEAVE THE ROOM', 'ESCAPE', -50, 'SIDE QUEST ABANDONED.'], ['START A MONOLOGUE', 'RISKY', 20, 'TOO MUCH LORE.']] },
   { kind: 'attendance', eyebrow: 'ATTENDANCE SIMULATOR', title: <>ATTENDANCE:<br />74.2%</>, copy: 'One lecture tomorrow. What is the play?', layout: 'meter-choice', options: [['GO TO CLASS', 'SAFE', 130, 'LOCKED IN.'], ['EMAIL PROFESSOR', 'BOLD', 45, 'DIPLOMACY.'], ['PRAY', 'SPIRITUAL', 20, 'HIGHER POWERS.'], ['ASK FOR PROXY', 'CHAOS', 70, 'RISK TAKEN.']] },
   { kind: 'canteen', eyebrow: 'CANTEEN FINAL BOSS', title: <>YOU HAVE ₹80.<br />BUILD LUNCH.</>, copy: 'Maximise happiness, value and quantity.', layout: 'budget', options: [['🥟 + 🥤', 'SAMOSA + COLD DRINK / ₹50', 120, 'BALANCED MEAL.'], ['🌯', 'BIG ROLL / ₹60', 90, 'SINGLE-ITEM SPECIALIST.'], ['🍟 + 🥟', 'FRIES + SAMOSA / ₹70', 150, 'CANTEEN IQ.'], ['💧', 'JUST WATER / ₹0', -60, 'GRINDSET GONE WRONG.']] },
@@ -74,6 +95,11 @@ const gameRounds = [
   { kind: 'build', eyebrow: 'LEARNIT LAB', title: <>BUILD SOMETHING<br />QUESTIONABLE.</>, copy: 'You have sixty seconds and one random idea.', layout: 'build-cards', options: [['🐱', 'DATING APP FOR CATS', 150, 'WELCOME TO LEARNIT.'], ['🍕', 'CANTEEN QUEUE PREDICTOR', 130, 'ACTUALLY USEFUL.'], ['🛵', 'HOSTEL FOOD DELIVERY', 100, 'LOGISTICS ERA.'], ['🎮', 'FLAPPY PROFESSOR', 150, 'WE LOVE THE ENERGY.']] },
 ];
 
+function pickSessionRounds() {
+  const count = 8;
+  return shuffleRounds(gameRounds).slice(0, count);
+}
+
 function Sparkles({ count = 14 }) {
   return <div className="sparkles" aria-hidden="true">{Array.from({ length: count }, (_, index) => <i key={index} style={{ '--i': index }} />)}</div>;
 }
@@ -81,6 +107,8 @@ function Sparkles({ count = 14 }) {
 export default function Home() {
   const [screen, setScreen] = useState('intro');
   const [round, setRound] = useState(0);
+  const [sessionRounds, setSessionRounds] = useState([]);
+  const [calibrationTick, setCalibrationTick] = useState(3);
   const [score, setScore] = useState(500);
   const [playerName, setPlayerName] = useState('');
   const [department, setDepartment] = useState('');
@@ -123,19 +151,19 @@ export default function Home() {
     setScore((oldScore) => Math.max(0, oldScore + points));
     displayToast(heading, points);
     window.setTimeout(() => {
-      if (round === gameRounds.length - 1) showResults();
+      if (round === sessionRounds.length - 1) showResults();
       else { setRound((oldRound) => oldRound + 1); setIsResolving(false); }
-    }, 2400);
-  }, [clearRoundTimers, displayToast, isResolving, round, showResults]);
+    }, ROUND_TRANSITION_MS);
+  }, [clearRoundTimers, displayToast, isResolving, round, sessionRounds.length, showResults]);
 
   useEffect(() => () => clearRoundTimers(), [clearRoundTimers]);
 
   useEffect(() => {
-    if (screen !== 'game') return undefined;
+    if (screen !== 'game' || !sessionRounds.length) return undefined;
     setSeconds(ROUND_DURATION);
     setIsBlinking(false);
     setMemoryVisible(true);
-    const currentKind = gameRounds[round].kind;
+    const currentKind = sessionRounds[round].kind;
 
     timerRef.current = window.setInterval(() => {
       setSeconds((value) => {
@@ -167,26 +195,40 @@ export default function Home() {
       needleFrame.current = requestAnimationFrame(travel);
     }
     return clearRoundTimers;
-  }, [clearRoundTimers, resolveRound, round, screen]);
+  }, [clearRoundTimers, resolveRound, round, screen, sessionRounds]);
+
+  useEffect(() => {
+    if (screen !== 'calibrating') return undefined;
+    setCalibrationTick(3);
+    const tickInterval = window.setInterval(() => {
+      setCalibrationTick((value) => {
+        if (value <= 1) {
+          clearInterval(tickInterval);
+          window.setTimeout(() => setScreen('game'), 250);
+          return 0;
+        }
+        return value - 1;
+      });
+    }, 550);
+    return () => clearInterval(tickInterval);
+  }, [screen]);
 
   const startGame = () => {
-    if (!playerName.trim()) { setProfileError('ADD YOUR NAME TO ENTER THE AURA LAB.'); return; }
-    clearRoundTimers(); setScore(500); setRound(0); setIsResolving(false); setToast(null); setProfileError(''); setScreen('game');
+    clearRoundTimers();
+    setScore(500);
+    setRound(0);
+    setSessionRounds(pickSessionRounds());
+    setIsResolving(false);
+    setToast(null);
+    setProfileError('');
+    setScreen('calibrating');
   };
-  const playAgain = () => { clearRoundTimers(); setScreen('intro'); };
-  const currentRound = gameRounds[round];
+  const playAgain = () => { clearRoundTimers(); setSessionRounds([]); setScreen('intro'); };
+  const currentRound = sessionRounds[round];
   const roundNumber = String(round + 1).padStart(2, '0');
-  const totalRounds = String(gameRounds.length).padStart(2, '0');
+  const totalRounds = String(sessionRounds.length || 8).padStart(2, '0');
   const playerDisplay = playerName.trim().toUpperCase() || 'PLAYER';
-  const departmentDisplay = department || 'CAMPUS';
-  const personalizedPrompt = {
-    4: `${playerDisplay}, THE ${departmentDisplay} GROUP CHAT IS COOKED.`,
-    5: `HEY ${playerDisplay} — YOUR ${departmentDisplay} ATTENDANCE IS 74%.`,
-    6: `${departmentDisplay} SUBMISSION PORTAL CLOSES IN 8 MINUTES.`,
-    9: `${playerDisplay}, YOUR FRIEND IS STILL “5 MINUTES AWAY.”`,
-    12: `YOUR ${departmentDisplay} PROFESSOR SAYS: “ANY QUESTIONS?”`,
-    13: `HEY ${playerDisplay}, A SURPRISE FREE PERIOD APPEARS.`,
-  }[round];
+  const departmentDisplay = department ? DEPARTMENT_EDITIONS[department] : 'CAMPUS EDITION';
   const leaderboard = [
     { name: playerDisplay, score, you: true },
     { name: 'RIYA', score: 540 + round * 118 },
@@ -195,10 +237,10 @@ export default function Home() {
     { name: 'KARAN', score: 460 + round * 96 },
   ].sort((left, right) => right.score - left.score);
   const result = score >= 1000
-    ? { emoji: '👑', title: <>MAIN<br />CHARACTER</>, message: 'You did not simply survive the aura test. You directed it.', status: 'PROTAGONIST ENERGY', meter: 92 }
+    ? { emoji: '👑', title: <>MAIN<br />CHARACTER</>, message: 'You clearly have questionable amounts of confidence.', rank: 'MAIN CHARACTER', meter: 92 }
     : score >= 700
-      ? { emoji: '🗿', title: <>AURA<br />FARMER</>, message: 'A few fumbles, but the aura is undeniably present.', status: 'CERTIFIED LOCKED IN', meter: 68 }
-      : { emoji: '💀', title: <>AURA IN<br />DEBT</>, message: 'The test was brutal. The comeback arc starts now.', status: 'NPC REHAB ARC', meter: 34 };
+      ? { emoji: '🗿', title: <>AURA<br />FARMER</>, message: 'Not legendary, but the room knows your name.', rank: 'AURA FARMER', meter: 68 }
+      : { emoji: '💀', title: <>AURA IN<br />DEBT</>, message: 'The chaos won this round. Run it back.', rank: 'NPC REHAB ARC', meter: 34 };
 
   return (
     <main className={`app ${screen}-mode`}>
@@ -209,28 +251,32 @@ export default function Home() {
       {screen === 'intro' && <section className="intro screen-enter">
         <header className="topbar"><span className="lab-label">✦ AURA LAB</span><span className="powered">POWERED BY <b>LearnIT</b></span></header>
         <div className="intro-content">
-          <p className="eyebrow">CAMPUS AURA ASSESSMENT / 2026</p>
           <h1>AURA <span>RUSH</span></h1>
-          <p className="intro-copy">You have <strong>about 5 minutes</strong> to prove you&apos;re not NPC.</p>
+          <p className="intro-tagline">Think you have aura? Prove it.</p>
+          <p className="intro-stats"><strong>8 challenges.</strong> <strong>3 minutes.</strong> <strong>1 aura score.</strong></p>
           <div className="profile-form">
             <label><span>YOUR NAME</span><input value={playerName} onChange={(event) => { setPlayerName(event.target.value); setProfileError(''); }} maxLength="16" placeholder="e.g. SOHAM" autoComplete="name" /></label>
-            <label><span>BRANCH / DEPARTMENT</span><select value={department} onChange={(event) => setDepartment(event.target.value)}><option value="">CHOOSE YOUR ZONE</option><option>CSE / IT</option><option>ECE / EEE</option><option>MECHANICAL</option><option>CIVIL</option><option>COMMERCE / MANAGEMENT</option><option>ARTS / DESIGN</option><option>OTHER</option></select></label>
+            <label><span>YOUR CAMPUS CLASS</span><select value={department} onChange={(event) => setDepartment(event.target.value)}><option value="">PICK ONE (OPTIONAL)</option>{CAMPUS_CLASSES.map((campusClass) => <option key={campusClass} value={campusClass}>{campusClass}</option>)}</select></label>
           </div>
           {profileError && <p className="profile-error">⚠ {profileError}</p>}
-          <div className="player-card"><span className="player-avatar">{playerName.trim().charAt(0).toUpperCase() || '✦'}</span><span>{playerName.trim() ? playerDisplay : 'YOUR PLAYER CARD'}</span><span className="live-dot" /><small>{departmentDisplay}</small></div>
-          <button className="primary-button magnetic" onClick={startGame}>START THE TEST <span>→</span></button>
-          <p className="microcopy">25 UNIQUE CHALLENGES · ~5 MINUTES · SOLO AURA ASSESSMENT</p>
+          <div className="player-card"><span className="player-avatar">{playerName.trim().charAt(0).toUpperCase() || '✦'}</span><span>{playerName.trim() ? playerDisplay : 'YOUR PLAYER CARD'}</span><span className="live-dot" /><small>{department ? `CAMPUS AURA: ${departmentDisplay}` : 'READY TO RUSH'}</small></div>
+          <button className="primary-button magnetic" onClick={startGame}>🔥 START THE CHAOS <span>→</span></button>
+          <p className="microcopy">25 UNIQUE CHALLENGES · SOLO · MOBILE</p>
         </div>
         <footer className="intro-footer"><span>◉ LIVE FROM CAMPUS</span><span>V.02 / AURA ENGINE</span></footer>
       </section>}
 
-      {screen === 'game' && <section className="game-screen screen-enter">
+      {screen === 'calibrating' && <section className="calibrating-screen screen-enter" aria-live="polite">
+        <p className="calibrating-label">AURA CALIBRATING...</p>
+        {calibrationTick > 0 && <p className="calibrating-count" key={calibrationTick}>{calibrationTick}</p>}
+      </section>}
+
+      {screen === 'game' && currentRound && <section className="game-screen screen-enter">
         <header className="game-header"><span className="game-brand">✦ <b>AURA RUSH</b></span><span className="round-count"><b>{roundNumber}</b><i />{totalRounds}</span><div className="game-actions"><button className="leaderboard-toggle" onClick={() => setLeaderboardOpen((open) => !open)}>⌁ <span>RANKS</span></button><span className="score-pill"><b>✦</b>{score.toLocaleString()} <small>AURA</small></span></div></header>
-        <div className="progress-rail"><i style={{ width: `${(round / gameRounds.length) * 100}%` }} /></div>
+        <div className="progress-rail"><i style={{ width: `${(round / sessionRounds.length) * 100}%` }} /></div>
         <div className="game-area">
           <div className="round-content" key={round}>
             <p className="eyebrow">ROUND {roundNumber} / {currentRound.eyebrow}</p>
-            {personalizedPrompt && <p className="personalized-prompt">{personalizedPrompt}</p>}
             <h2>{currentRound.title}</h2>
             <p className="round-copy">{currentRound.copy}</p>
             {currentRound.kind === 'silent' && <button className="silent-zone" onClick={() => resolveRound(-120, 'YOU BROKE THE SILENCE.')}><span>🧘</span><b>DON&apos;T TAP.</b><small>Hold still until the timer reaches zero.</small></button>}
@@ -246,9 +292,23 @@ export default function Home() {
         <aside className={`leaderboard ${leaderboardOpen ? 'leaderboard-open' : ''}`} aria-label="Live Aura leaderboard"><div className="leaderboard-heading"><span>✦ LIVE RANKS</span><button onClick={() => setLeaderboardOpen(false)} aria-label="Close leaderboard">×</button></div><p>WHO HAS THE MOST AURA?</p><ol>{leaderboard.map((entry, index) => <li key={entry.name} className={entry.you ? 'current-player' : ''}><b>{String(index + 1).padStart(2, '0')}</b><span className="rank-avatar">{entry.name.charAt(0)}</span><strong>{entry.name}{entry.you && <small>YOU</small>}</strong><em>{entry.score.toLocaleString()} ✦</em></li>)}</ol><div className="leaderboard-foot">UPDATES AFTER EVERY ROUND</div></aside>
       </section>}
 
-      {screen === 'results' && <section className="results-screen screen-enter"><div className="result-rings" /><div className="results-content"><p className="eyebrow">AURA ANALYSIS COMPLETE</p><p className="result-status">{result.status}</p><div className="result-emoji">{result.emoji}</div><h2>{result.title}</h2><p className="result-name">{playerDisplay}</p><p className="final-score">{score.toLocaleString()} <span>✦ AURA</span></p><div className="result-message"><p>{result.message}</p><div><i style={{ width: `${result.meter}%` }} /></div></div><button className="primary-button" onClick={() => setScreen('cta')}>UNLOCK THE VERDICT <span>→</span></button></div></section>}
-
-      {screen === 'cta' && <section className="cta-screen screen-enter"><div className="cta-sticker">AURA<br />LAB<br /><span>✦</span></div><div className="cta-content"><p className="eyebrow">THE GAME MAY BE OVER. THE CHAOS IS NOT.</p><p className="cta-personal">HEY {playerDisplay} / {departmentDisplay}</p><h2>{score >= 1000 ? <>YOU HAVE<br />THE AURA.</> : <>YOUR AURA<br />HAS SPOKEN.</>}</h2><p className="cta-copy">Whether you cooked or completely destroyed your Aura score, you&apos;d fit right in at <b>LearnIT.</b><br /><br />More games. More events. More people to build, learn, compete and make random ideas real.</p><p className="cta-signoff">COME MEET THE COOL PEEPS<br />BEHIND THE CHAOS.</p><a className="primary-button join-button" href={MEMBERSHIP_URL} target="_blank" rel="noreferrer">JOIN LEARNIT <span>→</span></a><button className="play-again" onClick={playAgain}>↻ &nbsp; PLAY AGAIN</button></div><div className="learnit-mark">L<span>IT</span></div></section>}
+      {screen === 'results' && <section className="results-screen screen-enter">
+        <div className="result-rings" />
+        <div className="results-content">
+          <p className="eyebrow">{department ? `CAMPUS AURA: ${departmentDisplay}` : 'RUN COMPLETE'}</p>
+          <p className="result-survived">YOU SURVIVED. {result.emoji}</p>
+          <p className="final-score">Your Aura: <strong>{score.toLocaleString()}</strong></p>
+          <p className="result-rank">Rank: <strong>{result.rank}</strong></p>
+          <div className="result-message"><p><em>{result.message}</em></p><div><i style={{ width: `${result.meter}%` }} /></div></div>
+          <div className="results-divider" />
+          <p className="results-warmup">But this was just the warm-up.</p>
+          <p className="results-learnit-copy"><b>LearnIT</b> is where people who like building things, trying ridiculous ideas, creating projects, competing, and meeting cool people come together.<br /><br />Think you&apos;d fit in?</p>
+          <a className="primary-button join-button" href={MEMBERSHIP_URL} target="_blank" rel="noreferrer">JOIN LEARNIT <span>→</span></a>
+          <p className="results-subcta">More fun experiences. More events. More cool peeps.</p>
+          <a className="secondary-button" href={MEMBERSHIP_URL} target="_blank" rel="noreferrer">BECOME A MEMBER</a>
+          <button className="play-again" onClick={playAgain}>↻ &nbsp; PLAY AGAIN</button>
+        </div>
+      </section>}
 
       {toast && <div className={`toast ${toast.points > 0 ? 'good' : 'bad'}`} key={toast.id}><strong>{toast.heading}</strong><span>{toast.points > 0 ? '+' : ''}{toast.points} AURA</span></div>}
     </main>
