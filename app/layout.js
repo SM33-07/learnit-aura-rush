@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'AURA RUSH — LearnIT',
-  description: 'Think you have aura? Prove it. A fast, chaotic campus game by LearnIT.',
+  title: 'AURA RUSH — Campus Aura Lab',
+  description: "Think you've got aura? Prove it. 25 unique challenges · ~3 minutes · solo aura challenge by LearnIT.",
 };
 
 export default function RootLayout({ children }) {

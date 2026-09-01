@@ -249,10 +249,10 @@ export default function Home() {
       <Sparkles key={burstKey} />
 
       {screen === 'intro' && <section className="intro screen-enter">
-        <header className="topbar"><span className="lab-label">✦ AURA LAB</span><span className="powered">POWERED BY <b>LearnIT</b></span></header>
+        <header className="topbar"><span className="lab-label">✦ CAMPUS AURA LAB / 2026</span><span className="powered">POWERED BY <b>LearnIT</b></span></header>
         <div className="intro-content">
           <h1>AURA <span>RUSH</span></h1>
-          <p className="intro-tagline">Think you have aura? Prove it.</p>
+          <p className="intro-tagline">Think you&apos;ve got aura? Prove it.</p>
           <p className="intro-stats"><strong>8 challenges.</strong> <strong>3 minutes.</strong> <strong>1 aura score.</strong></p>
           <div className="profile-form">
             <label><span>YOUR NAME</span><input value={playerName} onChange={(event) => { setPlayerName(event.target.value); setProfileError(''); }} maxLength="16" placeholder="e.g. SOHAM" autoComplete="name" /></label>
@@ -260,8 +260,8 @@ export default function Home() {
           </div>
           {profileError && <p className="profile-error">⚠ {profileError}</p>}
           <div className="player-card"><span className="player-avatar">{playerName.trim().charAt(0).toUpperCase() || '✦'}</span><span>{playerName.trim() ? playerDisplay : 'YOUR PLAYER CARD'}</span><span className="live-dot" /><small>{department ? `CAMPUS AURA: ${departmentDisplay}` : 'READY TO RUSH'}</small></div>
-          <button className="primary-button magnetic" onClick={startGame}>🔥 START THE CHAOS <span>→</span></button>
-          <p className="microcopy">25 UNIQUE CHALLENGES · SOLO · MOBILE</p>
+          <button className="primary-button magnetic" onClick={startGame}>START THE CHAOS <span>→</span></button>
+          <p className="microcopy">25 UNIQUE CHALLENGES · ~3 MINUTES · SOLO AURA CHALLENGE</p>
         </div>
         <footer className="intro-footer"><span>◉ LIVE FROM CAMPUS</span><span>V.02 / AURA ENGINE</span></footer>
       </section>}
