@@ -4,9 +4,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 const MEMBERSHIP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScdpwK6YjFtwWux8XXBr7tJRYrIlJSdsTNbfT3mahZShdCxHQ/viewform';
 
-const ROUND_DURATION = 10;
+const ROUND_DURATION = 12;
 
-const gameRounds = [
+const legacyRounds = [
   { type: 'blink', eyebrow: 'REFLEX TEST', title: <>DON&apos;T<br />BLINK.</>, copy: 'Tap the moment the eye closes. No flinching.' },
   { type: 'reaction', eyebrow: 'NPC CHECK', title: <>YOUR PROFESSOR SAYS<br />“SURPRISE TEST.”</>, copy: 'Pick the only socially acceptable reaction.', options: [['🗿', 'UNBOTHERED', -35, 'NPC BEHAVIOUR.'], ['💀', 'COOKED', 75, 'VALID REACTION.'], ['😭', 'CRYING', -35, 'TOO EMOTIONAL.']] },
   { type: 'timing', eyebrow: 'AURA TIMING', title: <>STOP THE BAR<br />AT MAX AURA.</>, copy: 'Do not fumble the cinematic moment.' },
@@ -44,6 +44,34 @@ const gameRounds = [
   { type: 'choice', eyebrow: 'FUTURE CHECK', title: <>SOMEONE ASKS<br />“WHAT’S THE PLAN AFTER COLLEGE?”</>, copy: 'The conversation just got real.', options: [['A', 'PITCH YOUR BIG IDEA', 90, 'VISIONARY.'], ['B', 'SAY “WE’LL SEE”', 40, 'HONEST ENERGY.'], ['C', 'CHANGE THE TOPIC', -35, 'ESCAPE ARTIST.']] },
   { type: 'blink', eyebrow: 'LAST REFLEX', title: <>DON&apos;T LOSE<br />FOCUS NOW.</>, copy: 'One final eye test before the big verdict.' },
   { type: 'reaction', eyebrow: 'LEARNIT INVITE', title: <>A FRIEND SAYS:<br />“COME TO THE LEARNIT EVENT.”</>, copy: 'There will be games, people and mildly questionable ideas.', options: [['✨', 'SAY YES', 90, 'CORRECT ANSWER.'], ['🤔', 'ASK FOR THE VIBE', 40, 'FAIR QUESTION.'], ['🚪', 'VANISH', -35, 'WE’LL MISS YOU.']] },
+];
+
+const gameRounds = [
+  { kind: 'entrance', eyebrow: 'AURA MAXXING', title: <>MAKE YOUR<br />ENTRANCE.</>, copy: 'You are 20 minutes late. How do you enter class?', layout: 'swipe', options: [['😎', 'WALK IN LIKE NOTHING HAPPENED', 250, 'MAIN CHARACTER ENERGY.'], ['🤫', 'SLIP INTO THE BACK', 80, 'STEALTH AURA.'], ['🙇', 'APOLOGISE TO EVERYONE', -35, 'TOO POLITE.'], ['🚦', 'BLAME THE TRAFFIC', 20, 'CLASSIC EXCUSE.']] },
+  { kind: 'auraPick', eyebrow: 'AURA OR NPC?', title: <>PICK THE MOST<br />AURA ACTION.</>, copy: 'The answer is intentionally ridiculous.', layout: 'icon-grid', options: [['🕶️', 'SUNGLASSES INDOORS', 150, 'UNEXPLAINABLY CINEMATIC.'], ['🔋', 'CHARGING AT 1%', 30, 'LIVING DANGEROUSLY.'], ['💻', 'LAPTOP EVERYWHERE', 60, 'BUILDER BEHAVIOUR.'], ['😵', '“GUYS, WE HAVE A TEST?”', -90, 'NPC DETECTED.']] },
+  { kind: 'bankruptcy', eyebrow: 'AURA BANKRUPTCY', title: <>YOUR CRUSH<br />WALKS PAST.</>, copy: 'This choice will be remembered.', layout: 'danger', options: [['👀', 'MAKE EYE CONTACT', 120, 'CONFIDENCE.'], ['📱', 'CHECK YOUR PHONE', 40, 'SAFE PLAY.'], ['🫠', 'TRIP FOR NO REASON', -200, 'AURA DESTROYED.'], ['🧱', 'WALK INTO A WALL', -250, 'COOKED BEYOND REPAIR.']] },
+  { kind: 'response', eyebrow: 'THE PERFECT RESPONSE', title: <>“BRO, YOU<br />STUDIED?”</>, copy: 'Reply with the most aura.', layout: 'bubbles', options: [['“YEAH.”', 'SHORT AND SCARY', 120, 'MYSTERIOUS.'], ['“A LITTLE.”', 'HONEST', 45, 'RESPECTABLE.'], ['“WHAT’S STUDYING?”', 'COMEDY', 75, 'CHAOS AURA.'], ['“WE LISTEN AND DON’T JUDGE.”', 'DEFLECTION', 150, 'ABSOLUTE CINEMA.']] },
+  { kind: 'touchGrass', eyebrow: 'TOUCH GRASS', title: <>HOW ONLINE<br />WERE YOU TODAY?</>, copy: 'Honesty is a form of aura.', layout: 'range', options: [['1–2 HRS', 'OUTSIDE', 120, 'TOUCHING GRASS.'], ['3–5 HRS', 'BALANCED', 90, 'STABLE AURA.'], ['6–8 HRS', 'CHRONICALLY ONLINE', 30, 'YOU KNOW THE VIBES.'], ['DON’T ASK', 'SELF AWARE', 100, 'SELF-AWARENESS W.']] },
+  { kind: 'silent', eyebrow: 'SILENT AURA', title: <>DO NOTHING<br />FOR 5 SECONDS.</>, copy: 'Tap anywhere and your aura drops. Discipline is the challenge.' },
+  { kind: 'slang', eyebrow: 'SLANG SCAN', title: <>“IT’S GIVING…”<br />MEANS?</>, copy: 'Choose the closest vibe, not a dictionary definition.', layout: 'definition', options: [['A CERTAIN VIBE', 'CORRECT', 120, 'SPEAKS INTERNET.'], ['SOMETHING BROKE', 'NOPE', -45, 'TECH SUPPORT ARC.'], ['IT’S FINISHED', 'NOPE', -45, 'NOT QUITE.'], ['IT’S EXPENSIVE', 'NOPE', -45, 'MONEY MENTIONED.']] },
+  { kind: 'fillBlank', eyebrow: 'COMPLETE THE LINE', title: <>“BRO IS<br />_____.”</>, copy: 'The chat has seen the situation.', layout: 'chips', options: [['COOKED', 'THE CLASSIC', 120, 'LINGUISTIC AURA.'], ['THE SYLLABUS', 'GRAMMATICALLY ILLEGAL', -40, 'SENTENCE FUMBLED.'], ['A LECTURE', 'UNHINGED', 35, 'STRANGE BUT BOLD.'], ['ON VACATION', 'OPTIMISTIC', 10, 'NOT THE VIBE.']] },
+  { kind: 'translate', eyebrow: 'GROUP CHAT TRANSLATOR', title: <>“NAH TS IS<br />COOKED NGL 💀”</>, copy: 'What is the overall vibe?', layout: 'chat', options: [['EVERYTHING IS PERFECT', 'DELUSION', -50, 'READ IT AGAIN.'], ['THIS IS TERRIBLE', 'TRANSLATION', 120, 'FLUENT.'], ['SOMEONE IS HUNGRY', 'RANDOM', -20, 'WHERE DID FOOD COME FROM?'], ['WE ARE LEAVING', 'POSSIBLE', 30, 'MAYBE.']] },
+  { kind: 'winloss', eyebrow: 'W OR L?', title: <>SUBMITTED AT 11:59.<br />DEADLINE: 12:00.</>, copy: 'Make the call.', layout: 'binary', options: [['W', 'CLUTCH', 130, 'THE ROOM SAYS W.'], ['L', 'FUMBLE', -50, 'THE ROOM DISAGREES.']] },
+  { kind: 'cap', eyebrow: 'CAP DETECTOR', title: <>“I STARTED STUDYING<br />THREE DAYS AGO.”</>, copy: 'Trust them or call it out.', layout: 'stamps', options: [['NO CAP', 'BELIEVE', 40, 'WHOLESOME.'], ['CAP', 'CALL IT', 120, 'LIE DETECTED.']] },
+  { kind: 'npcDialogue', eyebrow: 'NPC DIALOGUE', title: <>PROFESSOR: “ANY<br />VOLUNTEERS?”</>, copy: 'Choose the classic response.', layout: 'dialogue', options: [['LOOK DOWN IMMEDIATELY', 'NPC RESPONSE', 120, 'NPC LEVEL MAXIMUM.'], ['RAISE YOUR HAND', 'BRAVE', 70, 'PROTAGONIST MOVE.'], ['LEAVE THE ROOM', 'ESCAPE', -50, 'SIDE QUEST ABANDONED.'], ['START A MONOLOGUE', 'RISKY', 20, 'TOO MUCH LORE.']] },
+  { kind: 'attendance', eyebrow: 'ATTENDANCE SIMULATOR', title: <>ATTENDANCE:<br />74.2%</>, copy: 'One lecture tomorrow. What is the play?', layout: 'meter-choice', options: [['GO TO CLASS', 'SAFE', 130, 'LOCKED IN.'], ['EMAIL PROFESSOR', 'BOLD', 45, 'DIPLOMACY.'], ['PRAY', 'SPIRITUAL', 20, 'HIGHER POWERS.'], ['ASK FOR PROXY', 'CHAOS', 70, 'RISK TAKEN.']] },
+  { kind: 'canteen', eyebrow: 'CANTEEN FINAL BOSS', title: <>YOU HAVE ₹80.<br />BUILD LUNCH.</>, copy: 'Maximise happiness, value and quantity.', layout: 'budget', options: [['🥟 + 🥤', 'SAMOSA + COLD DRINK / ₹50', 120, 'BALANCED MEAL.'], ['🌯', 'BIG ROLL / ₹60', 90, 'SINGLE-ITEM SPECIALIST.'], ['🍟 + 🥟', 'FRIES + SAMOSA / ₹70', 150, 'CANTEEN IQ.'], ['💧', 'JUST WATER / ₹0', -60, 'GRINDSET GONE WRONG.']] },
+  { kind: 'project', eyebrow: 'GROUP PROJECT', title: <>WHO ARE YOU<br />IN THE TEAM?</>, copy: 'The presentation is tomorrow.', layout: 'identity', options: [['🧭', 'THE LEADER', 120, 'COMMANDER AURA.'], ['👻', 'THE GHOST', -80, 'UNREACHABLE.'], ['⏰', '“I’LL DO IT LATER”', -40, 'TIMER RUNNING.'], ['🖥️', 'DOING EVERYTHING', 150, 'THE REAL MVP.']] },
+  { kind: 'morning', eyebrow: '8 AM LECTURE', title: <>7:42 AM.<br />CLASS AT 8.</>, copy: 'Twelve minutes away. Pick one move.', layout: 'route', options: [['🏃', 'RUN WITHOUT BREAKFAST', 130, 'LOCKED IN.'], ['🚿', 'SHOWER FIRST', -50, 'TIME BLIND.'], ['😴', 'GO BACK TO SLEEP', -100, 'SNOOZE AURA.'], ['📱', 'ASK IF ATTENDANCE HAI', 50, 'INFORMATION FIRST.']] },
+  { kind: 'exam', eyebrow: 'EXAM HALL DISASTER', title: <>YOU STUDIED CHAPTER 1.<br />EXAM IS CHAPTER 4.</>, copy: 'Activate the survival instinct.', layout: 'exam', options: [['🧮', 'CALCULATE PASS MARKS', 90, 'REALISTIC.'], ['🔮', 'ACTIVATE DELUSION', 120, 'ACADEMIC MAGIC.'], ['😶', 'ACCEPT FATE', 20, 'ZEN MODE.'], ['📖', 'READ FROM THE BACK', 50, 'TACTICAL.']] },
+  { kind: 'charger', eyebrow: 'CHARGER DIPLOMACY', title: <>“BRO, CAN I USE<br />YOUR CHARGER?”</>, copy: 'Your battery is 41 percent.', layout: 'negotiation', options: [['YES, TAKE IT', 'GENEROUS', 120, 'SOCIAL AURA.'], ['2 MINUTES ONLY', 'FAIR', 70, 'BOUNDARIES.'], ['“I’M ON 70%”', 'LIE', -30, 'SUS RESPONSE.'], ['PRETEND NOT TO HEAR', 'GHOST', -60, 'BAD ROOMMATE ARC.']] },
+  { kind: 'library', eyebrow: 'LIBRARY NPC', title: <>THE PERSON BESIDE YOU<br />OPENS CHIPS.</>, copy: 'The silence just shattered.', layout: 'noise', options: [['IGNORE IT', 'PEACE', 80, 'MONK MODE.'], ['MOVE SEATS', 'TACTICAL', 100, 'FOCUS PROTECTED.'], ['STARE AGGRESSIVELY', 'DRAMA', 30, 'AURA CONFRONTATION.'], ['EAT LOUDER', 'ESCALATE', 120, 'CHAOS WINS.']] },
+  { kind: 'lastBench', eyebrow: 'LAST BENCH LORE', title: <>“WHO WAS TALKING?”<br />SAYS THE PROFESSOR.</>, copy: 'Your row must choose a fate.', layout: 'spotlight', options: [['GO SILENT', 'INVISIBLE', 100, 'STEALTH MODE.'], ['SACRIFICE A FRIEND', 'BOLD', 40, 'TRUST BROKEN.'], ['LOOK AT EACH OTHER', 'CLASSIC', 120, 'LAST BENCH AURA.'], ['CONFESS', 'HONEST', 70, 'CHARACTER DEVELOPMENT.']] },
+  { kind: 'whoWould', eyebrow: 'THE ROOM DECIDES', title: <>WHO WOULD SURVIVE<br />A ZOMBIE APOCALYPSE?</>, copy: 'Cast the decisive campus vote.', layout: 'vote', options: [['RIYA', 'STRATEGIST', 90, 'RIYA GETS PLOT ARMOR.'], ['DEV', 'RESOURCEFUL', 90, 'DEV KNOWS A GUY.'], ['ANANYA', 'CHAOS GENIUS', 90, 'ANANYA WINS SOMEHOW.'], ['YOU', 'SELF BELIEF', 130, 'PROTAGONIST VOTED.']] },
+  { kind: 'roast', eyebrow: 'ROAST OR RESPECT', title: <>RIYA HAS 7 TABS<br />OPEN DURING CLASS.</>, copy: 'Choose her fate. Keep it harmless.', layout: 'split', options: [['🔥', 'RESPECT', 120, 'MAIN CHARACTER BEHAVIOUR.'], ['💀', 'ROAST', 80, 'AURA UNDER INVESTIGATION.']] },
+  { kind: 'curse', eyebrow: 'PICK YOUR CURSE', title: <>CHOOSE ONE<br />CAMPUS CURSE.</>, copy: 'There is no winning option.', layout: 'curse-cards', options: [['📚', '10 AM CLASS EVERY DAY', 80, 'SCHEDULE SURVIVOR.'], ['🍜', 'CANTEEN FOOD FOREVER', 120, 'BRAVE STOMACH.'], ['📶', 'ONE-BAR WIFI ONLY', -70, 'BUFFERING FOREVER.']] },
+  { kind: 'rather', eyebrow: 'WOULD YOU RATHER', title: <>8 AM CLASS<br />OR SURPRISE VIVA?</>, copy: 'The room is waiting for your answer.', layout: 'versus', options: [['8 AM CLASS', 'EARLY PAIN', 90, 'THE ROOM HAS DECIDED.'], ['SURPRISE VIVA', 'SUDDEN PAIN', 120, 'BRAVE CHOICE.']] },
+  { kind: 'build', eyebrow: 'LEARNIT LAB', title: <>BUILD SOMETHING<br />QUESTIONABLE.</>, copy: 'You have sixty seconds and one random idea.', layout: 'build-cards', options: [['🐱', 'DATING APP FOR CATS', 150, 'WELCOME TO LEARNIT.'], ['🍕', 'CANTEEN QUEUE PREDICTOR', 130, 'ACTUALLY USEFUL.'], ['🛵', 'HOSTEL FOOD DELIVERY', 100, 'LOGISTICS ERA.'], ['🎮', 'FLAPPY PROFESSOR', 150, 'WE LOVE THE ENERGY.']] },
 ];
 
 function Sparkles({ count = 14 }) {
@@ -107,30 +135,30 @@ export default function Home() {
     setSeconds(ROUND_DURATION);
     setIsBlinking(false);
     setMemoryVisible(true);
-    const currentType = gameRounds[round].type;
+    const currentKind = gameRounds[round].kind;
 
     timerRef.current = window.setInterval(() => {
       setSeconds((value) => {
         if (value <= 0.1) {
           clearInterval(timerRef.current);
-          window.setTimeout(() => resolveRound(currentType === 'timing' ? -80 : -50, 'TIME FUMBLED.'), 0);
+          window.setTimeout(() => resolveRound(currentKind === 'silent' ? 200 : -50, currentKind === 'silent' ? 'DISCIPLINE +200 AURA.' : 'TIME FUMBLED.'), 0);
           return 0;
         }
         return Math.max(0, value - 0.1);
       });
     }, 100);
 
-    if (currentType === 'blink') {
+    if (currentKind === 'blink') {
       const wait = 3400 + Math.random() * 2500;
       blinkTimeout.current = window.setTimeout(() => {
         setIsBlinking(true);
         blinkTimeout.current = window.setTimeout(() => resolveRound(-50, 'TOO SLOW.'), 650);
       }, wait);
     }
-    if (currentType === 'memory') {
+    if (currentKind === 'memory') {
       memoryTimeout.current = window.setTimeout(() => setMemoryVisible(false), 1450);
     }
-    if (currentType === 'timing') {
+    if (currentKind === 'timing') {
       const started = performance.now();
       const travel = (time) => {
         setNeedle(((Math.sin((time - started) / 460) + 1) / 2) * 100);
@@ -191,7 +219,7 @@ export default function Home() {
           {profileError && <p className="profile-error">⚠ {profileError}</p>}
           <div className="player-card"><span className="player-avatar">{playerName.trim().charAt(0).toUpperCase() || '✦'}</span><span>{playerName.trim() ? playerDisplay : 'YOUR PLAYER CARD'}</span><span className="live-dot" /><small>{departmentDisplay}</small></div>
           <button className="primary-button magnetic" onClick={startGame}>START THE TEST <span>→</span></button>
-          <p className="microcopy">36 UNIQUE ROUNDS · ~5 MINUTES · ZERO EXCUSES</p>
+          <p className="microcopy">25 UNIQUE CHALLENGES · ~5 MINUTES · SOLO AURA ASSESSMENT</p>
         </div>
         <footer className="intro-footer"><span>◉ LIVE FROM CAMPUS</span><span>V.02 / AURA ENGINE</span></footer>
       </section>}
@@ -205,6 +233,8 @@ export default function Home() {
             {personalizedPrompt && <p className="personalized-prompt">{personalizedPrompt}</p>}
             <h2>{currentRound.title}</h2>
             <p className="round-copy">{currentRound.copy}</p>
+            {currentRound.kind === 'silent' && <button className="silent-zone" onClick={() => resolveRound(-120, 'YOU BROKE THE SILENCE.')}><span>🧘</span><b>DON&apos;T TAP.</b><small>Hold still until the timer reaches zero.</small></button>}
+            {currentRound.options && <div className={`aura-challenge-options ${currentRound.layout || ''}`}>{currentRound.options.map(([icon, label, points, feedback]) => <button key={label} onClick={() => resolveRound(points, feedback)}><span>{icon}</span><strong>{label}</strong><i>→</i></button>)}</div>}
             {currentRound.type === 'blink' && <button className={`eye-stage ${isBlinking ? 'blinked' : ''}`} aria-label="Tap when the eye blinks" onClick={() => resolveRound(isBlinking ? 100 : -50, isBlinking ? 'CLEAN TIMING.' : 'EARLY TAP.')}><span className="eye-lid" /><span className="eye-ball"><i /></span><em>{isBlinking ? 'TAP NOW!' : 'WAIT FOR IT...'}</em></button>}
             {currentRound.type === 'reaction' && <div className="reaction-cards">{currentRound.options.map(([emoji, label, points, feedback]) => <button key={label} onClick={() => resolveRound(points, feedback)}><span>{emoji}</span><small>{label}</small></button>)}</div>}
             {currentRound.type === 'choice' && <div className="choice-cards">{currentRound.options.map(([letter, label, points, feedback]) => <button key={letter} onClick={() => resolveRound(points, feedback)}><b>{letter}</b><span>{label}</span><i>→</i></button>)}</div>}
