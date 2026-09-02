@@ -247,14 +247,10 @@ export default function PlayPage({ params }) {
 
           <Link
             href="/"
-            style={{
-              font: "700 11px 'DM Mono', monospace",
-              color: '#aaa5b5',
-              textDecoration: 'none',
-              marginTop: '4px'
-            }}
+            className="minimal-glass-btn"
+            style={{ width: '100%', marginTop: '6px' }}
           >
-            Play Solo Mode instead
+            ← Play Solo Mode instead
           </Link>
         </div>
       </main>

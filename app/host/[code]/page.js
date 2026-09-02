@@ -156,15 +156,7 @@ export default function HostScreen({ params }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Link
             href="/"
-            style={{
-              font: "700 11px 'DM Mono', monospace",
-              color: '#aaa5b5',
-              textDecoration: 'none',
-              padding: '6px 12px',
-              borderRadius: '8px',
-              border: '1px solid rgba(255,255,255,0.14)',
-              background: 'rgba(255,255,255,0.04)'
-            }}
+            className="minimal-glass-btn"
           >
             ← Mode Selection
           </Link>

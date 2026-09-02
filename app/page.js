@@ -512,15 +512,8 @@ export default function Home() {
 
               <button
                 onClick={() => setGameMode(null)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#aaa5b5',
-                  font: "600 11.5px 'DM Mono', monospace",
-                  cursor: 'pointer',
-                  padding: '6px 0',
-                  textAlign: 'left'
-                }}
+                className="minimal-glass-btn"
+                style={{ alignSelf: 'flex-start', marginTop: '4px' }}
               >
                 ← Back to Mode Selection
               </button>
@@ -553,14 +546,8 @@ export default function Home() {
               <button className="primary-button magnetic" onClick={goToRules}>START THE CHAOS <span>→</span></button>
               <button
                 onClick={() => setGameMode(null)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#aaa5b5',
-                  font: "600 11px 'DM Mono', monospace",
-                  cursor: 'pointer',
-                  marginTop: '10px'
-                }}
+                className="minimal-glass-btn"
+                style={{ alignSelf: 'flex-start', marginTop: '14px' }}
               >
                 ← Change Mode
               </button>

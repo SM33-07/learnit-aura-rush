@@ -358,5 +358,42 @@
   opacity: 0.4;
 }
 
+/* Minimal Frosted Glass Utility Button */
+.minimal-glass-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(26, 18, 44, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  color: #dcd6e5;
+  font: 600 11.5px 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.minimal-glass-btn:hover {
+  background: rgba(42, 28, 70, 0.85);
+  border-color: rgba(210, 255, 0, 0.6);
+  color: var(--acid);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 12px rgba(210, 255, 0, 0.15);
+}
+
+.minimal-glass-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+
 
 
