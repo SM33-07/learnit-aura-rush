@@ -16,7 +16,7 @@ export function QRCodeCard({ roomCode }) {
     setJoinUrl(targetUrl);
 
     QRCode.toDataURL(targetUrl, {
-      width: 320,
+      width: 280,
       margin: 1.5,
       color: {
         dark: '#09090e',
@@ -49,72 +49,80 @@ export function QRCodeCard({ roomCode }) {
 
   return (
     <div className="arcade-panel" style={{
-      padding: '24px',
+      padding: '24px 20px',
       borderRadius: '24px',
-      maxWidth: '380px',
-      margin: '0 auto',
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       textAlign: 'center',
       border: '2px solid rgba(210, 255, 0, 0.4)',
-      boxShadow: '0 0 30px rgba(210, 255, 0, 0.15)',
+      boxShadow: '0 0 35px rgba(210, 255, 0, 0.12)',
     }}>
-      <p style={{
-        font: "700 11px 'DM Mono', monospace",
-        color: '#d2ff00',
-        letterSpacing: '0.14em',
-        marginBottom: '6px',
-        textTransform: 'uppercase'
-      }}>
-        SCAN TO TAKE THE LEAD
-      </p>
+      <div>
+        <p style={{
+          font: "700 11px 'DM Mono', monospace",
+          color: '#d2ff00',
+          letterSpacing: '0.14em',
+          margin: '0 0 4px 0',
+          textTransform: 'uppercase'
+        }}>
+          SCAN TO TAKE THE LEAD
+        </p>
 
-      <h2 style={{
-        font: "800 28px 'Space Grotesk', sans-serif",
-        color: '#fff',
-        margin: '0 0 14px 0',
-        letterSpacing: '0.04em'
-      }}>
-        ROOM {roomCode}
-      </h2>
+        <h2 style={{
+          font: "800 32px 'Space Grotesk', sans-serif",
+          color: '#fff',
+          margin: '0 0 14px 0',
+          letterSpacing: '0.02em',
+          lineHeight: 1.1
+        }}>
+          ROOM {roomCode}
+        </h2>
+      </div>
 
       <div style={{
         background: '#d2ff00',
-        padding: '12px',
+        padding: '10px',
         borderRadius: '16px',
         display: 'inline-block',
         boxShadow: '0 12px 28px rgba(0,0,0,0.5)',
-        marginBottom: '16px'
+        margin: '6px 0 16px 0'
       }}>
         {qrDataUrl ? (
           <img
             src={qrDataUrl}
             alt={`QR Code to join room ${roomCode}`}
-            style={{ width: '220px', height: '220px', display: 'block', borderRadius: '8px' }}
+            style={{ width: '190px', height: '190px', display: 'block', borderRadius: '8px' }}
           />
         ) : (
-          <div style={{ width: '220px', height: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '190px', height: '190px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ font: "700 12px 'DM Mono', monospace", color: '#09090e' }}>GENERATING QR...</span>
           </div>
         )}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', maxWidth: '280px' }}>
         <button
           onClick={copyToClipboard}
           className="magnetic"
           style={{
+            width: '100%',
             background: 'rgba(255, 255, 255, 0.08)',
             border: '1px solid rgba(255, 255, 255, 0.18)',
             borderRadius: '12px',
             color: '#fcfbf6',
             font: "700 12px 'DM Mono', monospace",
-            padding: '10px 14px',
+            padding: '11px 14px',
             cursor: 'pointer',
             transition: 'all 0.15s ease'
           }}
         >
           {copied ? '✓ COPIED JOIN LINK' : '🔗 COPY JOIN LINK'}
         </button>
-        <small style={{ font: "500 11px 'DM Mono', monospace", color: '#aaa5b5' }}>
+        <small style={{ font: "500 10.5px 'DM Mono', monospace", color: '#aaa5b5' }}>
           Point phone camera • Instant 1-tap join
         </small>
       </div>

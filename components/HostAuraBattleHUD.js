@@ -110,7 +110,7 @@ export function HostAuraBattleHUD({ room, onRestart }) {
 
       {/* 3. ACTIVE BATTLE SCREEN */}
       {isActive && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)', gap: '20px', alignItems: 'start' }}>
+        <div className="host-battle-grid">
           {/* Left: Challenge Spotlight */}
           <div>
             {room.activeChallenge && (

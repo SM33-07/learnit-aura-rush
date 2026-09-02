@@ -404,15 +404,15 @@ export default function Home() {
 
           {/* 1A. MODE SELECTION SCREEN */}
           {gameMode === null && (
-            <div style={{ maxWidth: '440px', width: '100%', margin: '20px auto 10px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <p className="intro-stats" style={{ margin: '0 0 4px 0' }}>
+            <div style={{ maxWidth: '440px', width: '100%', margin: '24px 0 12px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <p className="intro-stats" style={{ margin: '0 0 4px 0', fontSize: '13px' }}>
                 <strong>SELECT YOUR GAME MODE</strong>
               </p>
 
               <button
                 className="primary-button magnetic"
                 onClick={() => setGameMode('solo')}
-                style={{ padding: '16px 20px', width: '100%', fontSize: '14px' }}
+                style={{ padding: '16px 20px', width: '100%', fontSize: '14px', margin: 0 }}
               >
                 🔥 PLAY SOLO (25 ROUNDS) <span>→</span>
               </button>
@@ -449,18 +449,18 @@ export default function Home() {
 
           {/* 1B. MULTIPLAYER HOST / JOIN SELECTION */}
           {gameMode === 'multiplayer' && (
-            <div style={{ maxWidth: '440px', width: '100%', margin: '14px auto 10px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div style={{ maxWidth: '440px', width: '100%', margin: '18px 0 12px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div style={{
                 background: 'rgba(210, 255, 0, 0.08)',
                 border: '1px solid rgba(210, 255, 0, 0.4)',
                 borderRadius: '16px',
-                padding: '12px',
-                textAlign: 'center'
+                padding: '12px 16px',
+                textAlign: 'left'
               }}>
                 <span style={{ font: "800 12px 'DM Mono', monospace", color: '#d2ff00', letterSpacing: '0.12em' }}>
                   TAKE THE LEAD • 1–6 PLAYERS
                 </span>
-                <p style={{ font: "500 12px 'Space Grotesk', sans-serif", color: '#c0b7cc', margin: '4px 0 0' }}>
+                <p style={{ font: "500 12.5px 'Space Grotesk', sans-serif", color: '#c0b7cc', margin: '4px 0 0' }}>
                   Live spectator leaderboard, speed bonuses &amp; Aura Steals.
                 </p>
               </div>
@@ -469,7 +469,7 @@ export default function Home() {
                 className="primary-button magnetic"
                 onClick={handleCreateMultiplayerRoom}
                 disabled={isCreatingRoom}
-                style={{ padding: '16px 20px', width: '100%', fontSize: '13.5px' }}
+                style={{ padding: '16px 20px', width: '100%', fontSize: '13.5px', margin: 0 }}
               >
                 {isCreatingRoom ? 'OPENING ARENA...' : '⚡ CREATE & HOST ARENA MATCH →'}
               </button>
@@ -485,9 +485,9 @@ export default function Home() {
                     background: 'rgba(0,0,0,0.6)',
                     border: '1px solid rgba(255,255,255,0.18)',
                     borderRadius: '12px',
-                    padding: '12px',
+                    padding: '13px',
                     color: '#d2ff00',
-                    font: "700 13px 'DM Mono', monospace",
+                    font: "700 14px 'DM Mono', monospace",
                     textAlign: 'center',
                     outline: 'none'
                   }}
@@ -501,8 +501,8 @@ export default function Home() {
                     border: '1px solid #d2ff00',
                     borderRadius: '12px',
                     color: '#d2ff00',
-                    font: "800 12px 'Space Grotesk', sans-serif",
-                    padding: '0 16px',
+                    font: "800 12.5px 'Space Grotesk', sans-serif",
+                    padding: '0 18px',
                     cursor: 'pointer'
                   }}
                 >
@@ -518,7 +518,8 @@ export default function Home() {
                   color: '#aaa5b5',
                   font: "600 11.5px 'DM Mono', monospace",
                   cursor: 'pointer',
-                  padding: '6px'
+                  padding: '6px 0',
+                  textAlign: 'left'
                 }}
               >
                 ← Back to Mode Selection

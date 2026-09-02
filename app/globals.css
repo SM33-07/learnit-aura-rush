@@ -219,4 +219,144 @@
   }
 }
 
+/* ==========================================================================
+   MULTIPLAYER ARCADE & MOBILE RESPONSIVE ENGINE
+   ========================================================================== */
+.arcade-panel {
+  background: linear-gradient(145deg, rgba(24, 18, 38, 0.88) 0%, rgba(11, 8, 20, 0.96) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 14px 36px -10px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.host-lobby-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(340px, 480px);
+  gap: 32px;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  max-width: 960px;
+  margin: auto;
+}
+
+@media (max-width: 860px) {
+  .host-lobby-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    gap: 20px;
+  }
+}
+
+.host-battle-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .host-battle-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.mobile-controller-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.mobile-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .mobile-choice-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+}
+
+.mobile-choice-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  padding: 13px 15px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  color: var(--cream);
+  font: 700 13px 'Space Grotesk', sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  touch-action: manipulation;
+}
+
+.mobile-choice-btn:active {
+  transform: scale(0.98);
+}
+
+.mobile-choice-btn.selected {
+  border-color: var(--acid);
+  background: rgba(210, 255, 0, 0.18);
+  color: var(--acid);
+  box-shadow: 0 0 20px rgba(210, 255, 0, 0.25);
+}
+
+.power-cards-tray {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
+}
+
+.power-card-btn {
+  flex: 1;
+  min-height: 48px;
+  padding: 8px 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(129, 90, 255, 0.5);
+  background: linear-gradient(135deg, rgba(129, 90, 255, 0.2) 0%, rgba(26, 18, 44, 0.6) 100%);
+  color: #fff;
+  font: 700 10px 'DM Mono', monospace;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: transform 0.15s, border-color 0.15s;
+  touch-action: manipulation;
+}
+
+.power-card-btn:active {
+  transform: scale(0.95);
+}
+
+.power-card-btn.used {
+  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.3);
+  color: #555;
+  cursor: default;
+  opacity: 0.4;
+}
+
+
 
