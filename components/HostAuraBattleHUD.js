@@ -343,55 +343,87 @@ export function HostAuraBattleHUD({ room, onRestart }) {
               ))}
             </div>
           </div>
-
           {/* LearnIT Conversion Banner */}
           <div style={{
             maxWidth: '520px',
             width: '100%',
-            padding: '24px',
+            padding: '24px 20px',
             borderRadius: '20px',
             border: '2px solid #00f0ff',
-            background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(129, 90, 255, 0.2) 100%)',
-            boxShadow: '0 0 30px rgba(0, 240, 255, 0.2)'
+            background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(129, 90, 255, 0.18) 100%)',
+            boxShadow: '0 0 30px rgba(0, 240, 255, 0.18)',
+            textAlign: 'center'
           }}>
-            <p style={{ font: "700 11px 'DM Mono', monospace", color: '#00f0ff', letterSpacing: '0.14em', marginBottom: '6px' }}>
+            <p style={{
+              font: "700 11px 'DM Mono', monospace",
+              color: '#00f0ff',
+              letterSpacing: '0.14em',
+              margin: '0 0 8px 0',
+              textTransform: 'uppercase'
+            }}>
               ✦ JOIN LEARNIT CLUB
             </p>
-            <h3 style={{ font: "800 20px 'Space Grotesk', sans-serif", color: '#fff', margin: '0 0 14px 0' }}>
-              "Think you have the Aura? Learn. Build. Compete."
+            <h3 style={{
+              font: "800 clamp(15px, 3.8vw, 20px) 'Space Grotesk', sans-serif",
+              color: '#fff',
+              margin: '0 auto 16px',
+              lineHeight: 1.35,
+              maxWidth: '440px'
+            }}>
+              &ldquo;Think you have the Aura? Learn. Build. Compete.&rdquo;
             </h3>
             <a
               href={MEMBERSHIP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="primary-button magnetic"
+              className="magnetic"
               style={{
-                display: 'inline-flex',
+                display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '8px',
-                padding: '12px 24px',
+                width: '100%',
+                maxWidth: '420px',
+                margin: '0 auto',
+                minHeight: '48px',
+                padding: '12px 18px',
                 background: '#00f0ff',
                 color: '#09090e',
                 borderRadius: '14px',
                 textDecoration: 'none',
-                font: "800 12px 'Space Grotesk', sans-serif"
+                font: "800 clamp(12px, 3vw, 13.5px) 'Space Grotesk', sans-serif",
+                lineHeight: 1.3,
+                textAlign: 'center',
+                boxShadow: '0 0 25px rgba(0, 240, 255, 0.4), 4px 4px 0 #815aff',
+                transition: 'all 0.18s ease'
               }}
             >
               <span>🚀 REGISTER FOR LEARNIT MEMBERSHIP</span>
-              <span>→</span>
+              <span style={{ fontSize: '16px', fontWeight: 800 }}>→</span>
             </a>
           </div>
 
           <button
             onClick={onRestart}
-            className="primary-button magnetic"
+            className="magnetic"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
               padding: '14px 28px',
-              fontSize: '13px',
-              boxShadow: '0 0 20px rgba(210, 255, 0, 0.4)'
+              borderRadius: '14px',
+              background: '#d2ff00',
+              border: 'none',
+              boxShadow: '0 0 25px rgba(210, 255, 0, 0.45)',
+              color: '#09090e',
+              font: "800 13px 'Space Grotesk', sans-serif",
+              cursor: 'pointer',
+              letterSpacing: '0.04em'
             }}
           >
-            ⚡ PLAY AGAIN / NEXT BATTLE
+            <span>⚡ PLAY AGAIN / NEXT BATTLE</span>
+            <span>→</span>
           </button>
         </div>
       )}

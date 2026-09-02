@@ -77,19 +77,28 @@ export function AuraResultCard({ score, rank, totalPlayers, name, avatar }) {
           href={MEMBERSHIP_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="primary-button magnetic"
+          className="magnetic"
           style={{
-            display: 'block',
-            textAlign: 'center',
-            padding: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            width: '100%',
+            minHeight: '48px',
+            padding: '12px 16px',
             background: '#00f0ff',
             color: '#09090e',
             borderRadius: '12px',
             textDecoration: 'none',
-            font: "800 11.5px 'Space Grotesk', sans-serif"
+            font: "800 12.5px 'Space Grotesk', sans-serif",
+            lineHeight: 1.3,
+            textAlign: 'center',
+            boxShadow: '0 0 20px rgba(0, 240, 255, 0.35), 3px 3px 0 #815aff',
+            transition: 'all 0.18s ease'
           }}
         >
-          🚀 REGISTER (GOOGLE FORM)
+          <span>🚀 REGISTER (GOOGLE FORM)</span>
+          <span style={{ fontSize: '15px', fontWeight: 800 }}>→</span>
         </a>
       </div>
     </div>
