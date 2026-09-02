@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const MEMBERSHIP_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScdpwK6YjFtwWux8XXBr7tJRYrIlJSdsTNbfT3mahZShdCxHQ/viewform';
 
@@ -138,6 +139,37 @@ export default function Home() {
   const [burstKey, setBurstKey] = useState(0);
   const [screenShake, setScreenShake] = useState(false);
   const [friendModal, setFriendModal] = useState(false);
+  const router = useRouter();
+  const [gameMode, setGameMode] = useState(null); // null = Mode Select, 'solo', 'multiplayer'
+  const [joinCodeInput, setJoinCodeInput] = useState('');
+  const [isCreatingRoom, setIsCreatingRoom] = useState(false);
+
+  const handleCreateMultiplayerRoom = async () => {
+    setIsCreatingRoom(true);
+    try {
+      const res = await fetch('/api/room', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'CREATE' }),
+      });
+      const data = await res.json();
+      if (data.code) {
+        if (data.hostToken) {
+          localStorage.setItem(`aura_host_token_${data.code}`, data.hostToken);
+        }
+        router.push(`/host/${data.code}`);
+      }
+    } catch (err) {
+      console.error('Failed to create room:', err);
+      setIsCreatingRoom(false);
+    }
+  };
+
+  const handleJoinMultiplayerRoom = (e) => {
+    e.preventDefault();
+    if (!joinCodeInput.trim()) return;
+    router.push(`/play/${joinCodeInput.trim().toUpperCase()}`);
+  };
   const [copied, setCopied] = useState(false);
 
   // Dynamic Mini-Game State Hooks
@@ -369,28 +401,173 @@ export default function Home() {
         <div className="intro-content">
           <h1>AURA <span>RUSH</span></h1>
           <p className="intro-tagline">Think you&apos;ve got aura? Prove it.</p>
-          <p className="intro-stats"><strong>25 challenges.</strong> <strong>3 minutes.</strong> <strong>1 aura score.</strong></p>
-          <div className="profile-form">
-            <label>
-              <span>YOUR NAME</span>
-              <input value={playerName} onChange={(event) => setPlayerName(event.target.value)} maxLength="16" placeholder="e.g. SOHAM" autoComplete="name" />
-            </label>
-            <label>
-              <span>YOUR STREAM / MAJOR</span>
-              <select value={department} onChange={(event) => setDepartment(event.target.value)}>
-                <option value="">PICK YOUR STREAM (OPTIONAL)</option>
-                {CAMPUS_CLASSES.map((campusClass) => <option key={campusClass} value={campusClass}>{campusClass}</option>)}
-              </select>
-            </label>
-          </div>
-          <div className="player-card">
-            <span className="player-avatar">{playerName.trim().charAt(0).toUpperCase() || '✦'}</span>
-            <span>{playerName.trim() ? playerDisplay : 'YOUR PLAYER CARD'}</span>
-            <span className="live-dot" />
-            <small>{department ? `${departmentDisplay}` : 'READY TO RUSH'}</small>
-          </div>
-          <button className="primary-button magnetic" onClick={goToRules}>START THE CHAOS <span>→</span></button>
-          <p className="microcopy">100 UNIQUE CHALLENGES · 25 PER RUN · SOLO AURA CHALLENGE</p>
+
+          {/* 1A. MODE SELECTION SCREEN */}
+          {gameMode === null && (
+            <div style={{ maxWidth: '440px', width: '100%', margin: '24px 0 12px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <p className="intro-stats" style={{ margin: '0 0 4px 0', fontSize: '13px' }}>
+                <strong>SELECT YOUR GAME MODE</strong>
+              </p>
+
+              <button
+                className="primary-button magnetic"
+                onClick={() => setGameMode('solo')}
+                style={{ padding: '16px 20px', width: '100%', fontSize: '14px', margin: 0 }}
+              >
+                🔥 PLAY SOLO (25 ROUNDS) <span>→</span>
+              </button>
+
+              <button
+                className="magnetic"
+                onClick={() => setGameMode('multiplayer')}
+                style={{
+                  padding: '16px 20px',
+                  width: '100%',
+                  borderRadius: '16px',
+                  background: 'linear-gradient(135deg, rgba(129,90,255,0.25) 0%, rgba(210,255,0,0.15) 100%)',
+                  border: '2px solid #d2ff00',
+                  color: '#fff',
+                  font: "800 14px 'Space Grotesk', sans-serif",
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 0 20px rgba(210,255,0,0.2)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <div style={{ textAlign: 'left' }}>
+                  <span style={{ display: 'block', color: '#d2ff00', fontSize: '15px' }}>⚡ TAKE THE LEAD</span>
+                  <small style={{ font: "500 11px 'DM Mono', monospace", color: '#aaa5b5' }}>
+                    1–6 Players • Battle for #1 Aura
+                  </small>
+                </div>
+                <span style={{ color: '#d2ff00', fontSize: '18px' }}>→</span>
+              </button>
+            </div>
+          )}
+
+          {/* 1B. MULTIPLAYER HOST / JOIN SELECTION */}
+          {gameMode === 'multiplayer' && (
+            <div style={{ maxWidth: '440px', width: '100%', margin: '18px 0 12px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{
+                background: 'rgba(210, 255, 0, 0.08)',
+                border: '1px solid rgba(210, 255, 0, 0.4)',
+                borderRadius: '16px',
+                padding: '12px 16px',
+                textAlign: 'left'
+              }}>
+                <span style={{ font: "800 12px 'DM Mono', monospace", color: '#d2ff00', letterSpacing: '0.12em' }}>
+                  TAKE THE LEAD • 1–6 PLAYERS
+                </span>
+                <p style={{ font: "500 12.5px 'Space Grotesk', sans-serif", color: '#c0b7cc', margin: '4px 0 0' }}>
+                  Live spectator leaderboard, speed bonuses &amp; Aura Steals.
+                </p>
+              </div>
+
+              <button
+                className="primary-button magnetic"
+                onClick={handleCreateMultiplayerRoom}
+                disabled={isCreatingRoom}
+                style={{ padding: '16px 20px', width: '100%', fontSize: '13.5px', margin: 0 }}
+              >
+                {isCreatingRoom ? 'OPENING ARENA...' : '⚡ CREATE & HOST ARENA MATCH →'}
+              </button>
+
+              <form onSubmit={handleJoinMultiplayerRoom} style={{ display: 'flex', gap: '8px' }}>
+                <input
+                  type="text"
+                  placeholder="ROOM CODE (e.g. AURA1234)"
+                  value={joinCodeInput}
+                  onChange={(e) => setJoinCodeInput(e.target.value)}
+                  style={{
+                    flex: 1,
+                    background: 'rgba(0,0,0,0.6)',
+                    border: '1px solid rgba(255,255,255,0.18)',
+                    borderRadius: '12px',
+                    padding: '13px',
+                    color: '#d2ff00',
+                    font: "700 14px 'DM Mono', monospace",
+                    textAlign: 'center',
+                    outline: 'none'
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={!joinCodeInput.trim()}
+                  className="magnetic"
+                  style={{
+                    background: 'rgba(210, 255, 0, 0.2)',
+                    border: '1px solid #d2ff00',
+                    borderRadius: '12px',
+                    color: '#d2ff00',
+                    font: "800 12.5px 'Space Grotesk', sans-serif",
+                    padding: '0 18px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  JOIN →
+                </button>
+              </form>
+
+              <button
+                onClick={() => setGameMode(null)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#aaa5b5',
+                  font: "600 11.5px 'DM Mono', monospace",
+                  cursor: 'pointer',
+                  padding: '6px 0',
+                  textAlign: 'left'
+                }}
+              >
+                ← Back to Mode Selection
+              </button>
+            </div>
+          )}
+
+          {/* 1C. EXISTING SOLO PROFILE & RULES ENTRY (100% PRESERVED) */}
+          {gameMode === 'solo' && (
+            <>
+              <p className="intro-stats"><strong>25 challenges.</strong> <strong>3 minutes.</strong> <strong>1 aura score.</strong></p>
+              <div className="profile-form">
+                <label>
+                  <span>YOUR NAME</span>
+                  <input value={playerName} onChange={(event) => setPlayerName(event.target.value)} maxLength="16" placeholder="e.g. SOHAM" autoComplete="name" />
+                </label>
+                <label>
+                  <span>YOUR STREAM / MAJOR</span>
+                  <select value={department} onChange={(event) => setDepartment(event.target.value)}>
+                    <option value="">PICK YOUR STREAM (OPTIONAL)</option>
+                    {CAMPUS_CLASSES.map((campusClass) => <option key={campusClass} value={campusClass}>{campusClass}</option>)}
+                  </select>
+                </label>
+              </div>
+              <div className="player-card">
+                <span className="player-avatar">{playerName.trim().charAt(0).toUpperCase() || '✦'}</span>
+                <span>{playerName.trim() ? playerDisplay : 'YOUR PLAYER CARD'}</span>
+                <span className="live-dot" />
+                <small>{department ? `${departmentDisplay}` : 'READY TO RUSH'}</small>
+              </div>
+              <button className="primary-button magnetic" onClick={goToRules}>START THE CHAOS <span>→</span></button>
+              <button
+                onClick={() => setGameMode(null)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#aaa5b5',
+                  font: "600 11px 'DM Mono', monospace",
+                  cursor: 'pointer',
+                  marginTop: '10px'
+                }}
+              >
+                ← Change Mode
+              </button>
+            </>
+          )}
+
+          <p className="microcopy">100 UNIQUE CHALLENGES · POWERED BY LEARNIT</p>
         </div>
         <footer className="intro-footer">
           <span>◉ LIVE FROM CAMPUS</span>
