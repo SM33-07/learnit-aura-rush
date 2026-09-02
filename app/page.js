@@ -493,9 +493,18 @@ export default function Home() {
 
         <div className="game-area">
           <div className="round-content" key={round}>
-            <p className="eyebrow">{currentRound.eyebrow}</p>
-            <h2>{currentRound.title}</h2>
-            <p className="round-copy">{currentRound.copy}</p>
+            {/* RADIANT GLASSMORPHIC QUESTION SPOTLIGHT BOX */}
+            <div className="question-glass-card">
+              <div className="question-tag-row">
+                <span className="question-tag-label">
+                  <span className="question-tag-dot">✦</span>
+                  {currentRound.eyebrow || 'CAMPUS SITUATION'}
+                </span>
+                <span className="question-num-pill">CHALLENGE {roundNumber}/{totalRounds}</span>
+              </div>
+              <h2 className="question-title-text">{currentRound.title}</h2>
+              {currentRound.copy && <p className="round-copy">{currentRound.copy}</p>}
+            </div>
 
             {/* MECHANIC 1: Silent Zone */}
             {currentRound.kind === 'dontPress' && (

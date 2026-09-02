@@ -106,3 +106,117 @@
 }
 @media (max-width:650px){.header-score-banner{padding:4px 9px}.score-val{font-size:14px}.challenge-step{font-size:9px}.aura-card-inner{padding:20px 15px 16px}.card-title{font-size:30px}.card-score-big{font-size:20px}.card-review{font-size:12.5px}.pitch-hook{font-size:15px}.pitch-copy{font-size:12px}.alarm-grid{gap:8px}.alarm-card{min-height:85px;padding:10px}.alarm-card strong{font-size:16px}.mem-icon{font-size:46px}.sequence-btn{width:56px;height:56px;font-size:26px}}
 
+/* ==========================================================================
+   RADIANT GLASSMORPHIC QUESTION / CHALLENGE SPOTLIGHT CONTAINER
+   ========================================================================== */
+.question-glass-card {
+  position: relative;
+  width: min(680px, 100%);
+  margin: 0 auto 24px auto;
+  padding: 22px 26px 20px;
+  background: linear-gradient(135deg, rgba(28, 21, 46, 0.78) 0%, rgba(13, 10, 24, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 2px solid rgba(210, 255, 0, 0.85);
+  border-radius: 22px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 16px 42px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(210, 255, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  text-align: center;
+  overflow: hidden;
+  animation: question-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes question-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.question-glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--acid), transparent);
+  filter: blur(0.5px);
+}
+
+.question-tag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.question-tag-label {
+  color: var(--pink);
+  font: 700 11px 'DM Mono', monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.question-tag-dot {
+  color: var(--acid);
+  font-size: 13px;
+  animation: pulse 1.2s infinite;
+}
+
+.question-num-pill {
+  padding: 3px 9px;
+  background: rgba(210, 255, 0, 0.12);
+  border: 1px solid rgba(210, 255, 0, 0.4);
+  border-radius: 99px;
+  color: var(--acid);
+  font: 700 10px 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+}
+
+.question-title-text {
+  margin: 8px 0 0 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: clamp(24px, 4.2vw, 44px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.035em !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+
+.question-glass-card .round-copy {
+  margin: 10px auto 0 !important;
+  max-width: 540px;
+  color: #dcd3e6 !important;
+  font-size: clamp(13px, 1.8vw, 16px) !important;
+  line-height: 1.38 !important;
+}
+
+@media (max-width: 650px) {
+  .question-glass-card {
+    padding: 16px 18px 14px;
+    border-radius: 18px;
+    margin-bottom: 16px;
+  }
+  .question-tag-label {
+    font-size: 10px;
+  }
+  .question-title-text {
+    font-size: clamp(20px, 6vw, 29px) !important;
+  }
+  .question-glass-card .round-copy {
+    font-size: 13px !important;
+    margin-top: 8px !important;
+  }
+}
+
+
